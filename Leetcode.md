@@ -6,7 +6,9 @@ return 1->4->3->2->5->NULL.
 Note:
 Given m, n satisfy the following condition:
 1 ≤ m ≤ n ≤ length of list.
-'''
+
+
+```
 /**
  * Definition for singly-linked list.
  * struct ListNode {
@@ -74,4 +76,4 @@ public:
     
     }
 };
-'''
+```
