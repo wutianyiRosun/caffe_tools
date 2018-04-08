@@ -1,4 +1,63 @@
-### 92. Reverse Linked List
+### 61. Rotate List
+```
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+
+class Solution {
+public:
+    ListNode* rotateRight(ListNode* head, int k) {
+        
+        //some case: return the original list
+        if(k==0||head==NULL||head->next==NULL)
+            return head;
+        int len=1;
+        ListNode* p1=head;
+        while(p1->next!=NULL){// computing the length of the list
+            len+=1;
+            p1=p1->next;
+        }
+        k=k%len;
+        if(k==0)
+            return head;
+        ListNode* p2=head;
+        ListNode* newhead=head;
+        
+        while(k>0){
+          p2=p2->next;
+          k--;
+        }
+        p1=head;
+        while(p2->next!=NULL){
+            p2=p2->next;
+            p1=p1->next;
+        }
+        newhead=p1->next; 
+        p1->next=NULL;  //converting the partion[head,..,p1] into single list
+        p1=head;
+        queue<ListNode*> ass_que;
+        ass_que.push(p1);
+        while(p1->next!=NULL){ //push the partion[head,..,p1] into single list into queue 
+            p1=p1->next;
+            ass_que.push(p1);
+        }
+        while(ass_que.empty()==0){
+            p2->next=ass_que.front();
+            ass_que.pop();
+            p2=p2->next;
+        }
+        return newhead;     
+        
+        
+      }
+};
+```
+### 92. Reverse Linked List II
 Reverse a linked list from position m to n. Do it in-place and in one-pass.
 For example:
 Given 1->2->3->4->5->NULL, m = 2 and n = 4,
