@@ -64,11 +64,86 @@ public:
       }
 };
 ```
+### 83. Remove Duplicates from Sorted List
+
+Given a sorted linked list, delete all duplicates such that each element appear only once.
+
+For example,
+Given 1->1->2, return 1->2.
+Given 1->1->2->3->3, return 1->2->3.
+```
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+/*Solution 1:
+
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        //do with special case
+        if(head==NULL||head->next==NULL)
+            return head;
+  
+        ListNode* p1=head;
+        
+        queue<ListNode*> ass_que;
+        ass_que.push(head);
+        while(p1->next!=NULL){
+            p1=p1->next;
+            if(p1->val!=ass_que.back()->val){
+                ass_que.push(p1);       
+            }  
+        }
+        ListNode* newhead;
+        newhead=ass_que.front();
+        p1=newhead;
+        ass_que.pop();
+        while(ass_que.empty()==0){
+            p1->next=ass_que.front();
+            ass_que.pop();
+            p1=p1->next; 
+        }
+        p1->next=NULL;
+        return newhead;
+    }
+};
+*/
+//solution 2:
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        //do with special case
+        if(head==NULL||head->next==NULL)
+            return head;
+        ListNode* cur_node;
+        cur_node=head;
+        while(cur_node->next!=NULL){
+             if(cur_node->val==cur_node->next->val)
+                 cur_node->next=cur_node->next->next;
+             else{
+                 cur_node=cur_node->next;
+             }
+             
+            
+        }
+        return head;
+      
+    }
+};
+```
+
 ### 92. Reverse Linked List II
 Reverse a linked list from position m to n. Do it in-place and in one-pass.
+
 For example:
 Given 1->2->3->4->5->NULL, m = 2 and n = 4,
 return 1->4->3->2->5->NULL.
+
 Note:
 Given m, n satisfy the following condition:
 1 ≤ m ≤ n ≤ length of list.
