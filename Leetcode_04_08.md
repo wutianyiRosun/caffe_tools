@@ -1,3 +1,13 @@
+Today, I begin to do exercise on leetcode for the near future interview.
+今天做的三道题都是关于链表的，61，83，92.其中61和92属于middle-level, 都是关于链表反转的，关于链表反转最简单的思路是借用个stack或者queue来处理，非常容易想到。另外一个方法就是降低空间复杂度，在链表本地进行相应转换，我们可以借用三个指针来处理，ppre, pcur, pnext. pcur遍历需要反转部分链表的每个元素。 
+```
+pnext=pcur->next;
+pcur->next=ppre;
+ppre=pcur;
+pcur=pnext;
+```
+
+
 ### 61. Rotate List
 Given a list, rotate the list to the right by k places, where k is non-negative.
 
@@ -129,12 +139,9 @@ public:
                  cur_node->next=cur_node->next->next;
              else{
                  cur_node=cur_node->next;
-             }
-             
-            
+             }      
         }
-        return head;
-      
+        return head; 
     }
 };
 ```
@@ -223,3 +230,5 @@ public:
     }
 };
 ```
+
+
