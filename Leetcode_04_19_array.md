@@ -81,3 +81,45 @@ public:
     }
 };
 ```
+
+### 26. Remove Duplicates from Sorted Array
+Given a sorted array nums, remove the duplicates in-place such that each element appear only once and return the new length.
+
+Do not allocate extra space for another array, you must do this by modifying the input array in-place with O(1) extra memory.
+
+Example 1:
+
+Given nums = [1,1,2],
+
+Your function should return length = 2, with the first two elements of nums being 1 and 2 respectively.
+
+It doesn't matter what you leave beyond the returned length.
+
+```
+//Solution:考虑两个指针，开始时第一个指针指向第一个数，第二个指针指向第二个数，判断是否等于第一个指针指向的数，如果等于，
+//则向右移动第二指针，直到不等于，则此时把第一个指针向右移动一次，然后把第二指针的value赋值给第一指针。
+//Time Complexity: O(N), Space Complexity: O(1)
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        if(nums.size()==0||nums.size()==1)
+            return nums.size();
+        int sec=1;
+        int cur=0;
+        while(sec<nums.size()){
+            
+            while(nums[sec]==nums[cur])//找到下一个大于nums[cur]的元素
+                sec++;
+            if(sec<nums.size()){
+                cur+=1;
+                nums[cur]=nums[sec];
+                //sec+=1;
+            }
+           
+        }
+        return cur+1;
+    }
+};
+```
+
+
