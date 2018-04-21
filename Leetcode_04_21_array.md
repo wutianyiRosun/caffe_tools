@@ -93,3 +93,85 @@ public:
     }
 };
 ```
+
+### 414. Third Maximum Number
+Given a non-empty array of integers, return the third maximum number in this array. If it does not exist, return the maximum number. The time complexity must be in O(n).
+
+Example 1:
+Input: [3, 2, 1]
+
+Output: 1
+
+Explanation: The third maximum is 1.
+Example 2:
+Input: [1, 2]
+
+Output: 2
+
+Explanation: The third maximum does not exist, so the maximum (2) is returned instead.
+Example 3:
+Input: [2, 2, 3, 1]
+
+Output: 1
+
+Explanation: Note that the third maximum here means the third maximum distinct number.
+Both numbers with value 2 are both considered as second maximum.
+```
+//Solution: 一开始看到这个题我们可以马上想到的一个方法就是先排序,然后从右往左寻找第三大值, Time complexity: O(nlogn).
+//但由于题目限制时间复杂为O(N).因此这个解法不符合要求.容易想到用三个变量保存first, second, third max value; 遍历数组,每次按要求去更新这三个最值
+//时间复杂度: O(N),空间复杂度: O(1)
+
+class Solution {
+public:
+        int thirdMax(vector<int>& nums) {
+        int firstmax=nums[0], secondmax=0, thirdmax=0;
+        bool secflag=0, thirdflag=0; //record second max and third max is NULL or not.
+        for(int cur =0; cur< nums.size(); cur++){
+            //更新第一大值
+            //if (cur>0 && nums[cur-1]==nums[cur]) continue;
+            
+            if(nums[cur]>firstmax){
+                if(secflag==0){
+                    secondmax=firstmax; 
+                    firstmax=nums[cur];
+                    secflag=1;
+                }
+                else{ //(secondmax!=NULL )
+                    thirdmax=secondmax;
+                    thirdflag=1;
+                    secondmax=firstmax;
+                    firstmax=nums[cur];
+                    
+                }
+            }
+               
+            //更新第二大值情况是 当前值小于firstmax,并且大于secondmax,或者是第二最大值为空的情况
+            if(nums[cur]<firstmax && ( (secflag==1 && nums[cur]>secondmax) || secflag==0 )  ){
+                if(secflag==0){ //第二大值为空
+                    secondmax=nums[cur];
+                    secflag=1;
+                    
+                }
+                else{ //第二大值不为空
+                    thirdmax=secondmax;
+                    thirdflag=1;
+                    secondmax=nums[cur];
+                }
+                
+            }
+                
+            //更新第三大值情况是 当前第二值不为空,且当前值小于第二大值, 然后第三大值小于当前值或者第三大值为空的情况
+            if(secflag!=0 && nums[cur]<secondmax  && ( (thirdflag!=NULL && nums[cur]>thirdmax) || thirdflag==NULL) ){
+                thirdflag=1;
+                thirdmax=nums[cur];
+            }
+    
+            //printf("cur= %d, max1= %d max2= %d max3= %d secflag=%d thirdflag=%d \n", cur, firstmax, secondmax, thirdmax, secflag, thirdflag);
+        }
+        if(thirdflag!=NULL)
+            return thirdmax;
+        return firstmax;
+        
+    }
+};
+```
