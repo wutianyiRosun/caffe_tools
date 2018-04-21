@@ -175,3 +175,40 @@ public:
     }
 };
 ```
+
+### 153. Find Minimum in Rotated Sorted Array
+Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand.
+
+(i.e., 0 1 2 4 5 6 7 might become 4 5 6 7 0 1 2).
+
+Find the minimum element.
+
+You may assume no duplicate exists in the array.
+```
+//二分查找法, Time Complexity: O(logN)
+class Solution {
+public:
+    int findMin(vector<int>& nums) {
+        int len=nums.size();
+        int start=0, end = len-1;
+        int middle=(start+end)/2;
+        if(nums[0]<nums[len-1])//排序数组
+            return nums[0];
+        while(start<end && middle>start){
+            
+           
+            if(nums[middle]>nums[start]){ //左子数组递增,最小值在右边子数组
+                start=middle;
+            } 
+            if(nums[middle]< nums[end]){  //右子数组递增, 最小值在左边子数组
+                end=middle;
+            }
+            middle=(start+end)/2;
+        }
+        return nums[start]>nums[end]?nums[end]:nums[start];
+    }
+};
+```
+
+
+
