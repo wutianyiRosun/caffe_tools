@@ -128,9 +128,9 @@ public:
         bool secflag=0, thirdflag=0; //record second max and third max is NULL or not.
         for(int cur =0; cur< nums.size(); cur++){
             //更新第一大值
-            //if (cur>0 && nums[cur-1]==nums[cur]) continue;
-            
-            if(nums[cur]>firstmax){
+            //if (cur>0 && nums[cur-1]==nums[cur]) continue; //跳过相同元素
+            、
+            if(nums[cur]>firstmax){
                 if(secflag==0){
                     secondmax=firstmax; 
                     firstmax=nums[cur];
