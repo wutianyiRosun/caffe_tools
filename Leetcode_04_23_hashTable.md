@@ -10,8 +10,11 @@ Note:
     You may assume k is always valid, 1 ≤ k ≤ number of unique elements.
     Your algorithm's time complexity must be better than O(n log n), where n is the array's size.
     
-    ```
-    //Solution1:先遍历nums,把对应元素存到一个set中，元素本身作为key,其出现次数作为value
+    
+    
+    
+```
+//Solution1:先遍历nums,把对应元素存到一个set中，元素本身作为key,其出现次数作为value
 //然后把set中<key,value>做为一个pair插入到优先队列，最后从优先队列pop前k个pair,去pair.second压人最后的vector<int> res
 /*
 class Solution {
