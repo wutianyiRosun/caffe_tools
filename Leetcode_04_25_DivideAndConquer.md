@@ -89,3 +89,61 @@ public:
     }
    
 };
+
+LeetCode
+
+    Explore
+    Problems
+    Mock 
+    Contest
+    Articles
+    Discuss
+     Store 
+
+     Premium
+    New Playground
+    Rosun
+
+215. Kth Largest Element in an Array
+
+Find the kth largest element in an unsorted array. Note that it is the kth largest element in the sorted order, not the kth distinct element.
+
+For example,
+Given [3,2,1,5,6,4] and k = 2, return 5.
+
+Note:
+You may assume k is always valid, 1 ≤ k ≤ array's length.
+
+Credits:
+Special thanks to @mithmatt for adding this problem and creating all test cases.
+
+```
+//Solution1:把所有元素都压人优先队列，然后弹出第K个
+/*class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+        
+        priority_queue<int> res;
+        for(int i=0;i<nums.size();i++)
+            res.push(nums[i]);
+        while(k>1){
+            res.pop();
+            k--;
+        }
+        return res.top();
+    }
+};*/
+
+//Solution1:把所有元素排个序，然后去第k-1个
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+        int len=nums.size();
+        sort(nums.begin(), nums.end());
+        return nums[len-k]; 
+    }
+};
+```
+
+
+
