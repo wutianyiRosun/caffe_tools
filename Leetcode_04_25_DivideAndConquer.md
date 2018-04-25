@@ -32,7 +32,6 @@ public:
         int colMax=matrix[0].size();
         if(colMax==0)
             return false;
-        
         return searchMatrixCore(matrix, 0, colMax-1, target);  //从右上角开始遍历
     }
     bool searchMatrixCore( vector<vector<int>>& matrix, int row, int column, int target){
@@ -90,19 +89,7 @@ public:
    
 };
 
-LeetCode
-
-    Explore
-    Problems
-    Mock 
-    Contest
-    Articles
-    Discuss
-     Store 
-
-     Premium
-    New Playground
-    Rosun
+```
 
 215. Kth Largest Element in an Array
 
