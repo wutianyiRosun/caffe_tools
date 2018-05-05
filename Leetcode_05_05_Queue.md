@@ -111,8 +111,8 @@ Notes:
     You may assume that all operations are valid (for example, no pop or peek operations will be called on an empty queue).
 
 ```
-//利用stack实现queue, 对于queue.push()操作比较好说，直接用stack.push()
-//对于queue.pop()操作是得到最先插入的元素，同时还要delete it, 我们看标准的stack()，如果只有一个stack,我们只能取最后插入的元素，因此我们想要借用一个辅助的stack来帮助我们实现queue.pop()， 通过把非空stack的元素（第一个元素除外)，压人那个空的stack,这样我们就能得到最先插入的元素，同时可以删除它， 然后再把刚刚出stack的所有元素顺序入stack 。对于queue.peek()操作，与queue.push()实现机制类似，差异在于处理最后一个元素，我们获取该元素之后，不删除它，而是把它也插入那个空的stack,最后我们再把所有元素都从另外的那个stack进行出stack,然后入这个stack
+/*利用stack实现queue, 对于queue.push()操作比较好说，直接用stack.push()
+对于queue.pop()操作是得到最先插入的元素，同时还要delete it, 我们看标准的stack()，如果只有一个stack,我们只能取最后插入的元素，因此我们想要借用一个辅助的stack来帮助我们实现queue.pop()， 通过把非空stack的元素（第一个元素除外)，压人那个空的stack,这样我们就能得到最先插入的元素，同时可以删除它， 然后再把刚刚出stack的所有元素顺序入stack 。对于queue.peek()操作，与queue.push()实现机制类似，差异在于处理最后一个元素，我们获取该元素之后，不删除它，而是把它也插入那个空的stack,最后我们再把所有元素都从另外的那个stack进行出stack,然后入这个stack*/
 
 class MyQueue {
 public:
