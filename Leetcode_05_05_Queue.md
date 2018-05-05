@@ -94,3 +94,132 @@ public:
  * bool param_4 = obj.empty();
  */
  ```
+ 
+ ### 232. Implement Queue using Stacks
+ 
+  Implement the following operations of a queue using stacks.
+
+    push(x) -- Push element x to the back of queue.
+    pop() -- Removes the element from in front of queue.
+    peek() -- Get the front element.
+    empty() -- Return whether the queue is empty.
+
+Notes:
+
+    You must use only standard operations of a stack -- which means only push to top, peek/pop from top, size, and is empty operations are valid.
+    Depending on your language, stack may not be supported natively. You may simulate a stack by using a list or deque (double-ended queue), as long as you use only standard operations of a stack.
+    You may assume that all operations are valid (for example, no pop or peek operations will be called on an empty queue).
+
+```
+//利用stack实现queue, 对于queue.push()操作比较好说，直接用stack.push()
+//对于queue.pop()操作是得到最先插入的元素，同时还要delete it, 我们看标准的stack()，如果只有一个stack,我们只能取最后插入的元素，因此我们想要借用一个辅助的stack来帮助我们实现queue.pop()， 通过把非空stack的元素（第一个元素除外)，压人那个空的stack,这样我们就能得到最先插入的元素，同时可以删除它， 然后再把刚刚出stack的所有元素顺序入stack 。对于queue.peek()操作，与queue.push()实现机制类似，差异在于处理最后一个元素，我们获取该元素之后，不删除它，而是把它也插入那个空的stack,最后我们再把所有元素都从另外的那个stack进行出stack,然后入这个stack
+
+class MyQueue {
+public:
+    /** Initialize your data structure here. */
+    MyQueue() {
+        
+    }
+    stack<int> st1;
+    stack<int> st2;
+    /** Push element x to the back of queue. */
+    void push(int x) {
+        if(st1.size()>0)
+            st1.push(x);
+        else
+            st2.push(x);
+        
+    }
+    
+    /** Removes the element from in front of queue and returns that element. */
+    int pop() {
+        if(st1.size()>0){ //st1非空，则把st1的所有元素（最后插入的元素除外）出stack，同时入st2
+            while(st1.size()>1){
+                st2.push(st1.top());
+                st1.pop(); //delete from stack st1
+            }
+            int res= st1.top();  //the last element of st1
+            st1.pop(); //delete the last element from st1
+            //st1 is empty, 
+            while(st2.size()>0){
+                st1.push(st2.top());
+                st2.pop();
+            }
+            return res;
+            
+        }else if(st2.size()>0){ //st2非空，则把st2的所有元素（最后插入的元素除外）出stack，同时入st1
+            while(st2.size()>1){
+                st1.push(st2.top());
+                st2.pop(); //delete from stack st2
+            }
+            int res= st2.top();  //the last element of st2
+            st2.pop(); //delete the last element from st2
+             //st2 is empty, 
+            while(st1.size()>0){
+                st2.push(st1.top());
+                st1.pop();
+            }
+            return res;
+            
+        }
+        else
+            return NULL;
+        
+    }
+    
+    /** Get the front element. */
+    int peek() {
+        if(st1.size()>0){ //st1非空，则把st1的所有元素出stack，同时入st2，但取出最开始插入的元素
+            while(st1.size()>1){
+                st2.push(st1.top());
+                st1.pop(); //delete from stack st1
+            }
+            int res= st1.top();  //the last element of st1
+            st2.push(st1.top()); //saving the last element of st1
+            st1.pop(); 
+            //st1 is empty, 
+            while(st2.size()>0){
+                st1.push(st2.top());
+                st2.pop();
+            }
+            return res;
+            
+        }else if(st2.size()>0){ //st2非空，则把st2的所有元素出stack，同时入st1, 但取出最开始插入的元素
+            while(st2.size()>1){
+                st1.push(st2.top());
+                st2.pop(); //delete from stack st2
+            }
+            int res= st2.top();  //the last element of st2
+            st1.push(st2.top());  //saving the last element of st2
+            st2.pop(); 
+             //st2 is empty, 
+            while(st1.size()>0){
+                st2.push(st1.top());
+                st1.pop();
+            }
+            return res;
+            
+        }
+        else
+            return NULL;
+        
+    }
+    
+    /** Returns whether the queue is empty. */
+    bool empty() {
+        if(st1.size()==0 && st2.size()==0)
+            return true;
+        else
+            return false;
+    }
+};
+
+/**
+ * Your MyQueue object will be instantiated and called as such:
+ * MyQueue obj = new MyQueue();
+ * obj.push(x);
+ * int param_2 = obj.pop();
+ * int param_3 = obj.peek();
+ * bool param_4 = obj.empty();
+ */
+ ```
