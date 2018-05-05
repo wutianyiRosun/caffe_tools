@@ -14,9 +14,10 @@ Notes:
     You may assume that all operations are valid (for example, no pop or top operations will be called on an empty stack).
 ```
 //对于这个题，用队列来实现一个拥有push、pop、top、empty()功能的stack
-//我们发现，对于push,操作与queue一样，直接push, 而pop()操作用一个队列是无法实现， 队列自己提供的front()是返回最先进队的元素，因此我们在这里考虑用两个队列来实现，我们保证任何时候，这两个队列至多只有一个队列非空，另外一个队列是在进行stack.pop()时后用，即把非空队列的所有元素(最后一个元素除外)顺序进入空的队列， 然后把那个最后元素作为返回值，并进行delete. 而对于stack.push(),如果有队列不为空，则把元素Push到这个队列，如果两个都为空，任意选折一个，只要每次保持选同一个；对于stack.empyt()则更简单。 而stack.top()是取得最后一个入stack的元素，则用非空队列的back()
-
-
+//我们发现，对于push,操作与queue一样，直接push, 而pop()操作用一个队列是无法实现， 队列自己提供的front()是返回最先进队的元素，因此我们在这里
+//考虑用两个队列来实现，我们保证任何时候，这两个队列至多只有一个队列非空，另外一个队列是在进行stack.pop()时后用，即把非空队列的所有元素(最后一
+//个元素除外)顺序进入空的队列， 然后把那个最后元素作为返回值，并进行delete. 而对于stack.push(),如果有队列不为空，则把元素Push到这个队列，如
+//果两个都为空，任意选折一个，只要每次保持选同一个；对于stack.empyt()则更简单。 而stack.top()是取得最后一个入stack的元素，则用非空队列的back()
 
 class MyStack {
 public:
@@ -111,8 +112,12 @@ Notes:
     You may assume that all operations are valid (for example, no pop or peek operations will be called on an empty queue).
 
 ```
-/*利用stack实现queue, 对于queue.push()操作比较好说，直接用stack.push()
-对于queue.pop()操作是得到最先插入的元素，同时还要delete it, 我们看标准的stack()，如果只有一个stack,我们只能取最后插入的元素，因此我们想要借用一个辅助的stack来帮助我们实现queue.pop()， 通过把非空stack的元素（第一个元素除外)，压人那个空的stack,这样我们就能得到最先插入的元素，同时可以删除它， 然后再把刚刚出stack的所有元素顺序入stack 。对于queue.peek()操作，与queue.push()实现机制类似，差异在于处理最后一个元素，我们获取该元素之后，不删除它，而是把它也插入那个空的stack,最后我们再把所有元素都从另外的那个stack进行出stack,然后入这个stack*/
+//利用stack实现queue, 对于queue.push()操作比较好说，直接用stack.push()
+//对于queue.pop()操作是得到最先插入的元素，同时还要delete it, 我们看标准的stack()，如果只有一个stack,我们只能取最后插入的元素，
+//因此我们想要借用一个辅助的stack来帮助我们实现queue.pop()， 通过把非空stack的元素（第一个元素除外)，压人那个空的stack,这样我们
+//就能得到最先插入的元素，同时可以删除它， 然后再把刚刚出stack的所有元素顺序入stack 。对于queue.peek()操作，与queue.push()实现机
+//制类似，差异在于处理最后一个元素，我们获取该元素之后，不删除它，而是把它也插入那个空的stack,最后我们再把所有元素都从另外的那个
+//stack进行出stack,然后入这个stack
 
 class MyQueue {
 public:
