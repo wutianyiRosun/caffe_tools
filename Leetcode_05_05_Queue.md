@@ -228,3 +228,73 @@ public:
  * bool param_4 = obj.empty();
  */
  ```
+ 
+ ### 155. Min Stack
+ 
+  Design a stack that supports push, pop, top, and retrieving the minimum element in constant time.
+
+    push(x) -- Push element x onto stack.
+    pop() -- Removes the element on top of the stack.
+    top() -- Get the top element.
+    getMin() -- Retrieve the minimum element in the stack.
+
+Example:
+
+MinStack minStack = new MinStack();
+minStack.push(-2);
+minStack.push(0);
+minStack.push(-3);
+minStack.getMin();   --> Returns -3.
+minStack.pop();
+minStack.top();      --> Returns 0.
+minStack.getMin();   --> Returns -2.
+```
+//对于MinStack, top()操作与标准stack的top()一样，根据入栈顺序，后入先出规则。 而对于getMin()，检索最小的元素。我们设想一个实际例子，
+//开始，当stack为空，我们压人一个元素，-1，这时最小元素为-1，我们再压人一个元素，如果元素大于-1，则此时最小元素还是是-1，如果压人的元素//比-1还小，则最小元素发生变更。因此我们得用一个辅助stack来同步记录最小元素， 其长度与数据stack等长
+
+class MinStack {
+public:
+    /** initialize your data structure here. */
+    MinStack() {
+        
+    }
+    stack<int> dataStack;  //数据stack
+    stack<int> minSeq;     //辅助stack,同步记录最小值
+    
+    void push(int x) {
+        dataStack.push(x);
+        //判断当前入栈元素是否小于当前最下元素，即minSeq最后插入的元素
+        if(minSeq.size()>0){
+            if(minSeq.top()>x)  //当前minSeq中最小元素大于当前插入元素
+                minSeq.push(x);
+            else
+                minSeq.push(minSeq.top());//当前最小元素保存不变
+        }
+        else
+            minSeq.push(x);
+        
+    }
+    
+    void pop() {
+        dataStack.pop(); //数据stack pop
+        minSeq.pop();  //同步的最小值stack pop
+    }
+    
+    int top() {
+        return dataStack.top();  //返回数据stack栈顶元素 
+    }
+    
+    int getMin() {
+        return minSeq.top();
+    }
+};
+
+/**
+ * Your MinStack object will be instantiated and called as such:
+ * MinStack obj = new MinStack();
+ * obj.push(x);
+ * obj.pop();
+ * int param_3 = obj.top();
+ * int param_4 = obj.getMin();
+ */
+ ```
