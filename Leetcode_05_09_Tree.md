@@ -36,3 +36,66 @@ public:
     }
 };
 ```
+### 257. Binary Tree Paths
+
+Given a binary tree, return all root-to-leaf paths.
+
+Note: A leaf is a node with no children.
+
+Example:
+
+Input:
+
+   1
+ /   \
+2     3
+ \
+  5
+
+Output: ["1->2->5", "1->3"]
+
+Explanation: All root-to-leaf paths are: 1->2->5, 1->3
+```
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+//对与tree路径遍历，采用递归烦死解决非常容易处理，对于一个节点，如果它是非空的叶子节点，我们则把当前路径保存到paths,如果它左儿子不为空，我们则递归遍历它左子树，如果它右儿子不为空，我们则递归遍历它右子树。
+class Solution {
+public:
+    vector<string> binaryTreePaths(TreeNode* root) {
+        vector<string> paths; //all pths
+        vector<int> spath;  //single path
+        FindPath(root, paths, spath);
+        return paths;
+    }
+    void FindPath(TreeNode* root, vector<string> & paths, vector<int> spath){
+        if(root==NULL || root->val==NULL) return;
+        spath.push_back(root->val);
+        if(root->left!=NULL){
+            
+            FindPath(root->left, paths, spath);
+        }
+        if(root->right!=NULL){
+            FindPath(root->right, paths, spath);
+        }
+        if(root->left == NULL && root->right == NULL && root->val!=NULL){  //非空叶子节点
+            string pathstr;
+            for(int i=0;i<spath.size(); i++){
+                pathstr+=to_string(spath[i]);
+                if(i+1 < spath.size())
+                    pathstr+="->";
+            }
+            paths.push_back(pathstr);
+        }
+
+    }
+};
+```
+
+
