@@ -65,7 +65,8 @@ Explanation: All root-to-leaf paths are: 1->2->5, 1->3
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
-//对与tree路径遍历，采用递归烦死解决非常容易处理，对于一个节点，如果它是非空的叶子节点，我们则把当前路径保存到paths,如果它左儿子不为空，我们则递归遍历它左子树，如果它右儿子不为空，我们则递归遍历它右子树。
+//对与tree路径遍历，采用递归烦死解决非常容易处理，对于一个节点，如果它是非空的叶子节点，我们则把当前路径保存到paths,如果它左儿子不为空，
+//我们则递归遍历它左子树，如果它右儿子不为空，我们则递归遍历它右子树。
 class Solution {
 public:
     vector<string> binaryTreePaths(TreeNode* root) {
