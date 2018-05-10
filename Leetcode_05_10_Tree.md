@@ -10,6 +10,8 @@ Given a binary tree, return the preorder traversal of its nodes' values.
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
+/*
+//递归求解
 class Solution {
 public:
     vector<int> preorderTraversal(TreeNode* root) {
@@ -27,5 +29,29 @@ public:
             preorderTraversalCore(root->right, res);
         
     }
+};
+*/
+//循环实现
+class Solution {
+public:
+    vector<int> preorderTraversal(TreeNode* root) {
+        vector<int> res;
+        stack<TreeNode*> st;
+        if (root==NULL) return res;
+        st.push(root);
+        TreeNode* pcur;
+        while(!st.empty()){
+            pcur=st.top();
+            st.pop();
+            while(pcur!=NULL){
+                res.push_back(pcur->val);
+                st.push(pcur->right);
+                pcur=pcur->left;
+            }
+            
+        }
+        return res;
+    }
+   
 };
 ```
