@@ -99,4 +99,50 @@ public:
 };
 ```
 
+### 671. Second Minimum Node In a Binary Tree
+ Given a non-empty special binary tree consisting of nodes with the non-negative value, where each node in this tree has exactly two or zero sub-node. If the node has two sub-nodes, then this node's value is the smaller value among its two sub-nodes.
+
+Given such a binary tree, you need to output the second minimum value in the set made of all the nodes' value in the whole tree.
+
+If no such second minimum value exists, output -1 instead. 
+
+```
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+//对于查找第二小的值，我们可以利用一个优先队列来保存大于根的值（数值小的优先级高），取遍历整个树
+//如果最后优先队列不为空，且最小的元素大于根节点的值,则这个最小的元素就是第二小值，否则不存在第二小的值
+class Solution {
+public:
+    using pqueue = priority_queue<int, std::vector<int>, std::greater<int>>;
+    int findSecondMinimumValue(TreeNode* root) {
+        //priority_queue<int, std::vector<int>, std::greater<int> > res;
+        pqueue res;
+        findSecondMiniValueCore(root, root->val, res);
+        cout<<res.size()<<endl;
+        int len=res.size();
+        /*for(int i=0; i<len; i++){
+            cout<<res.top()<<" ";
+            res.pop();
+        }*/
+        if (res.size()>0 && res.top()>root->val)
+            return res.top();
+        else
+            return -1;
+    }
+    void findSecondMiniValueCore(TreeNode* root, int root_value, pqueue &res){
+        if(root!=NULL && root->val > root_value) res.push(root->val);
+        if(root->left!=NULL) findSecondMiniValueCore(root->left, root_value, res);
+        if(root->right!=NULL) findSecondMiniValueCore(root->right, root_value, res);
+        
+    }
+};
+```
+
 
