@@ -55,3 +55,34 @@ public:
    
 };
 ```
+### 145. Binary Tree Postorder Traversal
+Given a binary tree, return the postorder traversal of its nodes' values.
+```
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+//递归实现
+class Solution {
+public:
+    vector<int> postorderTraversal(TreeNode* root) {
+        vector<int> res;
+        postorderTraversal(root, res);
+        return res;
+    }
+    void postorderTraversal(TreeNode* root, vector<int> & res){
+        if(root==NULL) return;
+        //后序遍历， 先左儿子再右儿子最后根节点
+        if(root->left)
+            postorderTraversal(root->left, res);
+        if(root->right)
+            postorderTraversal(root->right, res);
+        res.push_back(root->val);
+    }
+};
+```
