@@ -62,4 +62,31 @@ public:
     }
 };
 ```
-
+### 541. Reverse String II
+Given a string and an integer k, you need to reverse the first k characters for every 2k characters counting from the start of the string. If there are less than k characters left, reverse all of them. If there are less than 2k but greater than or equal to k characters, then reverse the first k characters and left the other as original. 
+```
+class Solution {
+public:
+    string reverseStr(string s, int k) {
+        if(s.size()<=1)
+            return s;
+        for(int i=0;i<s.size();i++)
+            cout<<s[i];
+        cout<<endl;
+        for(int start=0; start<s.size(); start=start+2*k){
+            int i=start, j=Min(start+k-1, s.size()-1);
+            cout<<"i="<<i<<"  j="<<j<<endl;
+            while(i<j){
+                char temp=s[i];
+                s[i++]=s[j];
+                s[j--]=temp;
+               
+            }
+        }
+        return s;
+    }
+    int Min(int a,int b){
+        return a>b?b:a;
+    }
+};
+```
