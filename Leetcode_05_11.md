@@ -57,4 +57,43 @@ public:
         return min;
     }
 };
-``
+```
+### 496. Next Greater Element I
+ You are given two arrays (without duplicates) nums1 and nums2 where nums1’s elements are subset of nums2. Find all the next greater numbers for nums1's elements in the corresponding places of nums2.
+
+The Next Greater Number of a number x in nums1 is the first greater number to its right in nums2. If it does not exist, output -1 for this number.
+
+```
+//Solution: 本题主要考察vector查找元素位置find(nums.begin(), nums.end(), val);和计算绝对距离index = distance(nums.begin(), pindex)的应用
+class Solution {
+public:
+    vector<int> nextGreaterElement(vector<int>& findNums, vector<int>& nums) {
+        vector<int> result;
+        int fsize=findNums.size();
+        int tsize=nums.size();
+        for(int i=0; i<fsize; i++){
+            int val= findNums[i];
+            auto pindex= find(nums.begin(), nums.end(), val);
+            if(pindex!=nums.end()){
+                int index = distance(nums.begin(), pindex);
+                bool find_flag=0;
+                while(index<=tsize-1){
+                    if(nums[index]>val){
+                        result.push_back(nums[index]);
+                        find_flag=1;
+                        break;
+                    }
+                    index+=1;
+                }
+                if(!find_flag)
+                    result.push_back(-1);
+                
+            }else{
+                result.push_back(-1);
+            }
+        }
+        return result;
+    }
+};
+```
+
