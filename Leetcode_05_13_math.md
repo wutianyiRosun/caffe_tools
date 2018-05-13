@@ -37,3 +37,41 @@ public:
 };
 
 ```
+### 29. Divide Two Integers
+Given two integers dividend and divisor, divide two integers without using multiplication, division and mod operator.
+
+Return the quotient after dividing dividend by divisor.
+
+The integer division should truncate toward zero.
+
+Example 1:
+
+Input: dividend = 10, divisor = 3
+Output: 3
+
+```
+class Solution {
+public:
+    int divide(int dividend, int divisor) {
+         if (!divisor || (dividend == INT_MIN && divisor == -1))
+            return INT_MAX;
+        int sign = ((dividend < 0) ^ (divisor < 0)) ? -1 : 1;  //异或 两数同号取1 不同号取-1 
+        long long dividend1 = labs(dividend);
+        long long divisor1 = labs(divisor);
+        
+        int sumcount=0;
+       
+        while( dividend1 >=divisor1){
+            long long temp = divisor1, count=1;
+            while(dividend1>=(temp<<1)){
+                temp = temp<<1;
+                count = count<<1;
+            }
+            dividend1 -= temp;
+            sumcount+=count;
+        }
+       
+        return sign==1 ?  sumcount: -1*sumcount;
+    }
+};
+```
