@@ -90,3 +90,93 @@ public:
     }
 };
 ```
+
+
+### 43. Multiply Strings
+Given two non-negative integers num1 and num2 represented as strings, return the product of num1 and num2, also represented as a string.
+
+Example 1:
+
+Input: num1 = "2", num2 = "3"
+Output: "6"
+
+```
+class Solution {
+public:
+    string multiply(string num1, string num2) {
+        string result("0");
+        if( num1=="0"||  num2== "0" )
+            return result;
+        int len1 = num1.size();
+        int len2 = num2.size();
+        
+        for(int i=0;i<len2; i++){
+            string result1= strMulchar(num1, num2[i], len2-i-1);
+            result = strAddstr(result, result1);   
+        }
+        return result;
+    }
+    string strMulchar(string num1, char a, int num0){
+        if(a=='0')
+            return string("0");
+        int len1 = num1.size();
+        vector<int> result(len1+1+num0, 0);
+        reverse(num1.begin(), num1.end()); //"123"->321
+        int i=num0;  //前面补num0个0
+        
+        
+        for(; i<len1+num0; i++){  //len1位= len1+num0 -1 -num0 + 1
+            int temp= result[i] + (num1[i-num0]-'0')*(a -'0');  //result[i]  是上一次计算的进位
+            result[i+1] = temp/10;
+            result[i] = temp%10;
+        }
+        
+        
+        while(i>0 && result[i]==0){ //去除最前面连续的0
+            i--;
+        }
+        string resultstr;
+        for(; i>=0; i--){
+            resultstr.push_back(result[i]+'0');
+        }
+        return resultstr;
+    }
+    
+    string strAddstr(string num1, string num2){
+        if( num1 =="0" )
+            return num2;
+        if( num2 == "0")
+            return num1;
+        
+        if(num1.size() < num2.size())
+            swap(num1, num2);
+        //反转字符串从数字低位开始计算，字符串中的低位是数字高位
+        reverse(num1.begin(), num1.end());
+        reverse(num2.begin(), num2.end());
+        
+        int len1= num1.size();  //len1>= len2
+        int len2= num2.size(); 
+        int lenres = len1+1; //和的长度
+        vector<int> sumseq(len1+1, 0);
+        string sumstr;
+        int i=0;
+        for( ; i<len2; i++){
+            int temp = sumseq[i] + num1[i]- '0' + num2[i] - '0';
+            sumseq[i+1] = temp /10;  //进位
+            sumseq[i] = temp %10; 
+        }
+        for(  ; i< len1; i++){
+            int temp = sumseq[i] + num1[i] -'0';
+            sumseq[i+1] = temp/10;
+            sumseq[i] = temp %10;
+        }
+        while(i>0 && sumseq[i]==0){ //去除最高位前面连续的 0
+            i--;
+        }
+        for(; i>=0 ;i--){
+            sumstr.push_back(sumseq[i]+'0');
+        }
+        return sumstr;
+    }
+};
+```
