@@ -89,3 +89,26 @@ public:
     }
 };
 ```
+### 326. Power of Three
+ Given an integer, write a function to determine if it is a power of three.
+
+Follow up:
+Could you do it without using any loop / recursion? 
+```
+class Solution {
+public:
+    bool isInteger(long double num){
+        if(ceil(num)-num<=1e-10) //ceil向上取整
+            return true;
+        return false;
+    }
+    bool isPowerOfThree(int n) {
+        if(n<=0)
+            return false;
+        else{
+            long double num=log(n)/log(3);
+            return isInteger(num);
+        }
+    }
+};
+```
