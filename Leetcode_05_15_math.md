@@ -59,3 +59,33 @@ public:
     }
 };
 ```
+
+### 343. Integer Break
+ Given a positive integer n, break it into the sum of at least two positive integers and maximize the product of those integers. Return the maximum product you can get.
+
+For example, given n = 2, return 1 (2 = 1 + 1); given n = 10, return 36 (10 = 3 + 3 + 4).
+
+Note: You may assume that n is not less than 2 and not larger than 58. 
+```
+//动态规划求解
+//我们用pro[i]表示数字i的分解数最大乘积值，则原问题等价于求pro[n]
+//而对于任意的一个数i, 2<=i<58, 其pro[i]=max(pro[i], pro[i-j]*j , (i-j)*j),1<=j<i
+//边界条件pro[2]=1,pro[1]=1
+class Solution {
+public:
+    int integerBreak(int n) {
+        vector<int> pro(n+1,0);
+        pro[1]=1;
+        pro[2]=1;
+        for(int i=3;i<=n;i++){
+            for(int j=1; j<i; j++){
+                pro[i]=max(pro[i], pro[i-j]*j);
+                pro[i]=max(pro[i], (i-j)*j);
+                
+            }
+        }
+        return pro[n];
+        
+    }
+};
+```
