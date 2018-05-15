@@ -27,3 +27,35 @@ public:
     }
 };
 ```
+
+### 279. Perfect Squares
+Given a positive integer n, find the least number of perfect square numbers (for example, 1, 4, 9, 16, ...) which sum to n.
+
+Example 1:
+
+Input: n = 12
+Output: 3 
+Explanation: 12 = 4 + 4 + 4.
+
+```
+//Solution: 动态规划求解，我们用nums[i]比表示和为i的the least number of perfect square numbers。则原问题就等价于求nums[n];
+//对于任意一个数i,我们可以把它拆成i-j*j, j*j这两个数，此处j*j<=i;则nums[i]=nums[i-j*j]+1
+//初始状态nums[0]=0
+
+class Solution {
+public:
+    int numSquares(int n) {
+        if(n<=0)
+            return 0;
+        vector<int> nums(n+1, INT_MAX);
+        nums[0]=0;
+        for(int i=1;i<=n;i++){
+            for(int j=1;j*j<=i;j++){
+                nums[i]= min(nums[i], nums[i-j*j]+1);
+            }
+        }
+        return nums[n];
+        
+    }
+};
+```
