@@ -43,3 +43,31 @@ public:
     }
 };
 ```
+### 108. Convert Sorted Array to Binary Search Tree
+
+Given an array where elements are sorted in ascending order, convert it to a height balanced BST.
+
+For this problem, a height-balanced binary tree is defined as a binary tree in which the depth of the two subtrees of every node never differ by more than 1.
+```
+class Solution {
+public:
+    TreeNode* connect(vector<int>& nums, int size, vector<int>::iterator init, vector<int>::iterator end) {
+      
+        if (init == end) return nullptr;
+        int lsize = size/2;
+        auto v = init + lsize;
+        // notice here right size
+        int rsize = end - (v+1);
+        TreeNode* root = new TreeNode(*v);
+        root->left = connect(nums, lsize, init, v);
+        root->right = connect(nums, rsize, v + 1, end);
+        return root;
+    }
+
+    TreeNode* sortedArrayToBST(vector<int>& nums) {
+     
+        return connect(nums, nums.size(), nums.begin(), nums.end());
+    }
+};
+```
+
