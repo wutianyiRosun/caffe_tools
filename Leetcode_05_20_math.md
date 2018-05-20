@@ -81,3 +81,41 @@ public:
    
 };
 ```
+### 453. Minimum Moves to Equal Array Elements
+
+Given a non-empty integer array of size n, find the minimum number of moves required to make all array elements equal, where a move is incrementing n - 1 elements by 1.
+
+Example:
+
+Input:
+[1,2,3]
+
+Output:
+3
+
+Explanation:
+Only three moves are needed (remember each move increments two elements):
+
+[1,2,3]  =>  [2,3,3]  =>  [3,4,3]  =>  [4,4,4]
+```
+//假设最小移动数为m_step;最小元素每一次都会增加1， 我们用n表示list长度，sum表示其和， min表示其最小元素，则m_step次增加之后
+// sum+m_step*(n-1)=(min + m_step)*n ==> m_step= sum-min*n
+class Solution {
+public:
+    int minMoves(vector<int>& nums) {
+        int n=nums.size();
+        int sum=nums[0];
+        int min=nums[0];
+        for(int i=1;i<=n-1;i++){
+            sum+=nums[i];
+            if(min>nums[i])
+                min=nums[i];
+        }     
+        cout<<"len= "<<n<<" sum="<<sum<<" min="<<min<<endl;
+        int m_step=sum-min*n;
+        return m_step;
+        
+        
+    }
+};
+```
