@@ -172,7 +172,8 @@ public:
 //Solution2: O(N)复杂度
 //仔细观察我们可以发现： F(k)=(k,  k+1,k+2, ... , n-2, n-1,0,1, ... ,k-1)*A
 //                   F(k+1)=(k+1,k+2,k+3, ... , n-1, 0,  1,2, ... ,k  )*A
-//              F(k+1)-F(k)=(1,  1,  1,   ... , 1,   1-n,1,1, ... , 1)*A=sum(A)-n*A[n-1-k]----> F(k+1)= F(k)+sum(A)-n*A[n-k-1]
+//              F(k+1)-F(k)=(1,  1,  1,   ... , 1,   1-n,1,1, ... , 1)*A
+//                         =sum(A)-n*A[n-1-k]----> F(k+1)= F(k)+sum(A)-n*A[n-k]
 class Solution {
 public:
     int maxRotateFunction(vector<int>& A) {
