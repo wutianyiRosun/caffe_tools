@@ -38,3 +38,61 @@ public:
     }
 };
 ```
+
+### 96. Unique Binary Search Trees
+Given n, how many structurally unique BST's (binary search trees) that store values 1 ... n?
+
+Example:
+
+Input: 3
+Output: 5
+Explanation:
+Given n = 3, there are a total of 5 unique BST's:
+
+   1         3     3      2      1
+    \       /     /      / \      \
+     3     2     1      1   3      2
+    /     /       \                 \
+   2     1         2                 3
+
+```
+//递归实现
+/*class Solution {
+public:
+    int numTrees(int n) {
+        return numTreesCore(1, n);
+    }
+    int numTreesCore(int a, int b){
+        if(a>=b)
+            return 1;
+        else if(b-a==1)
+            return 2;
+        else{
+            int sum=0;
+            for(int k=a; k<=b; k++)
+                sum+=numTreesCore(a, k-1)*numTreesCore(k+1, b);
+            return sum;                
+        }
+    }
+};*/
+//循环实现
+//DP, 从1～n中选取根节点i, (i=1,2,...,n),则小于i的元素作为左子树， 对应序列[1,i-1],  大于i的元素作为右子树，对应序列【i+1, n]，
+// G(n)= f(1,n)+f(2,n)+...+f(n,n),  此处f(i, n)表示以元素i为根节点的BST的数量
+//容易知道f(i, n)= G(i-1)*G(n-i), G(0)=1, G(1)=1
+//G(i)=f(1,i)+f(2,i)+...+f(i,i)
+class Solution {
+public:
+    int numTrees(int n) {
+       vector<int> G(n+1, 0);
+        G[0]=1;
+        G[1]=1;
+        for(int i=2; i<=n;i++){
+            //computing G(i)
+            for(int k=1;k<=i;k++){
+                G[i] += G[k-1]*G[i-k]; //G(i)=f(1,i)+f(2,i)+...+f(i,i)
+            }
+        }
+        return G[n];
+    }
+};
+```
