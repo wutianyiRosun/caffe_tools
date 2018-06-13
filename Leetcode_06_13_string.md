@@ -300,3 +300,53 @@ public:
     }
 };
 ```
+### 48. Rotate Image
+
+You are given an n x n 2D matrix representing an image.
+
+Rotate the image by 90 degrees (clockwise).
+
+Note:
+
+You have to rotate the image in-place, which means you have to modify the input 2D matrix directly. DO NOT allocate another 2D matrix and do the rotation.
+
+Example 1:
+
+Given input matrix = 
+[
+  [1,2,3],
+  [4,5,6],
+  [7,8,9]
+],
+
+rotate the input matrix in-place such that it becomes:
+[
+  [7,4,1],
+  [8,5,2],
+  [9,6,3]
+]
+```
+//Solution: 我们把矩阵旋转90度分为两个步骤，先进行转置， 然后交换对应的列， 如果第0与第n-1列， 第1列与第n-2列
+class Solution {
+public:
+    void rotate(vector<vector<int>>& matrix) {
+        int n= matrix.size();
+        //first, transpose
+        for(int i=0; i<n; i++){
+            for(int j=i+1; j<n; j++){
+                int temp = matrix[i][j];
+                matrix[i][j]=matrix[j][i];
+                matrix[j][i]=temp;
+            }
+        }
+        //swap column
+        for(int j=0; j<n/2; j++){
+            for(int i=0; i<n; i++){
+                int temp = matrix[i][j];
+                matrix[i][j] = matrix[i][n-j-1];
+                matrix[i][n-j-1]=temp;
+            }
+        }
+    }
+};
+```
