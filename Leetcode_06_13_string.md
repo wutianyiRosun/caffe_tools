@@ -115,5 +115,86 @@ public:
 };
 ```
 
+###  46. Permutations               
+Given a collection of distinct integers, return all possible permutations.
+
+Example:
+
+Input: [1,2,3]
+Output:
+[
+  [1,2,3],
+  [1,3,2],
+  [2,1,3],
+  [2,3,1],
+  [3,1,2],
+  [3,2,1]
+]
+```
+//Solution: 把序列第一元素与后面所有元素依次交换， 然后把交换后的序列分成两部分， 第一个元素单独做一部分， 后面所有元素的做一部分， 然后递归的对后面这部分元素也
+//进行这样的操作，递归下去，直到遇到最后的元素
+/*class Solution {
+public:
+    vector<vector<int>> permute(vector<int>& nums) {
+        vector<vector<int>> res;
+        if(nums.size()==0)
+            return res;
+        else if(nums.size()==1){
+            vector<int> midres;
+            midres.push_back(nums[0]);
+            res.push_back(midres);
+            return res;
+        }
+        else{
+            for(int i=0; i<nums.size(); i++){
+                cout<<"i= "<<i<<endl;
+                swap(nums[0], nums[i]);  //交换第0个元素与其他所有元素
+                vector<int> temp;
+                for(int i=1;i<nums.size();i++){
+                    temp.push_back(nums[i]);
+                }
+                vector<vector<int>> lastSec=permute(temp);
+                int m=lastSec.size();
+                for(int k=0;k<m;k++){
+                    lastSec[k].insert(lastSec[k].begin(), nums[0]);
+                    res.push_back(lastSec[k]);
+                }
+                swap(nums[0], nums[i]);  //交换回去
+
+            }
+            return res;
+        }
+      
+    }
+};
+*/
+class Solution {
+public:
+    vector<vector<int>> permute(vector<int>& nums){
+        vector<vector<int>> res;
+        if(nums.size()==0)
+            return res;
+        permuteCore(res, nums, 0); 
+        return res;
+    }
+    void permuteCore( vector<vector<int>>& res, vector<int>& nums, int curIndex) {
+        if(nums.size()-1==curIndex){
+            vector<int> midres;
+            for(int i=0;i<nums.size();i++){
+                midres.push_back(nums[i]);
+            }
+            res.push_back(midres);
+        }
+        else{
+            for(int i=curIndex; i<nums.size(); i++){
+                swap(nums[curIndex], nums[i]);  //交换首元素与其他所有元素
+                permuteCore(res, nums, curIndex+1); //对后面部分的元素递归调用
+                swap(nums[curIndex], nums[i]);  //交换回去
+            }
+        }
+      
+    }
+};
+```
 
 
