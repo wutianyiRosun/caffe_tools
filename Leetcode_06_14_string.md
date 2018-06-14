@@ -67,3 +67,96 @@ public:
     }
 };
 ```
+
+### 148. Sort List
+Sort a linked list in O(n log n) time using constant space complexity.
+
+Example 1:
+
+Input: 4->2->1->3
+Output: 1->2->3->4
+Example 2:
+
+Input: -1->5->3->4->0
+Output: -1->0->3->4->5
+```
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+//using merge sort's spirits, first dividing long list into two short list, and recursively ,  finally merge them
+class Solution {
+public:
+    ListNode* sortList(ListNode* head) {
+        //do with empty or single node list
+        if(head==NULL || head->next==NULL)
+            return head;
+        //computing the length of list
+        int len=0;
+        ListNode * pcur=head;
+        while(pcur!=NULL){
+            len+=1;
+            pcur=pcur->next;
+        }
+        ListNode * newHead = mergeSort(head, len);
+        return newHead;
+    }
+    ListNode * mergeSort(ListNode* head, int len){
+        if(len==1)
+            return head;
+        int pos=len/2-1; //divide bounder 0~pos-1,  pos~len
+        ListNode * head1= head; //head node of left section
+        ListNode * head2= NULL;  //head node of right section
+        int k=0;
+        while(k<pos){
+            head1=head1->next;
+            k++;
+        }
+        head2=head1->next;
+        head1->next=NULL; //divide list into two lists
+        head1=head;
+        
+        ListNode *p= mergeSort(head1, pos+1);
+        ListNode *q= mergeSort(head2, len-pos-1);
+        
+        //merge two lists into one list
+        
+        ListNode *resHead =NULL;
+        ListNode *resCur =NULL;
+        while(p!=NULL && q!=NULL){
+            if(p->val <= q->val){
+                if(resHead==NULL){
+                    resHead=p;
+                    resCur=p;
+                }
+                else{
+                    resCur->next=p;
+                    resCur=resCur->next;
+                }
+                p=p->next;
+            }
+            else if(p->val > q->val){
+                if(resHead == NULL){
+                    resHead=q;
+                    resCur=q;
+                }
+                else{
+                    resCur->next=q;
+                    resCur=resCur->next;
+                }
+                q=q->next;
+            }
+           
+        }
+        if(p!=NULL)
+            resCur->next=p;
+        if(q!=NULL)
+            resCur->next=q;
+        return resHead;
+    }
+};
+```
