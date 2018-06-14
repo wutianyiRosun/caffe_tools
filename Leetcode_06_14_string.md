@@ -160,3 +160,51 @@ public:
     }
 };
 ```
+### 152. Maximum Product Subarray
+Given an integer array nums, find the contiguous subarray within an array (containing at least one number) which has the largest product.
+
+Example 1:
+
+Input: [2,3,-2,4]
+Output: 6
+Explanation: [2,3] has the largest product 6.
+Example 2:
+
+Input: [-2,0,-1]
+Output: 0
+Explanation: The result cannot be 2, because [-2,-1] is not a subarray.
+```
+//DP求解
+class Solution {
+public:
+    int maxProduct(vector<int>& nums) {
+        int len= nums.size();
+        if(len==1)
+            return nums[0];
+        int opt[len][2];  //opt[i][0]表示以nums[i]结束的子数组乘积最小值,opt[i][1]表示以元素nums[i]结束的子数组乘积的最大值,预案为题等价于求max(dp)
+        //init opt[0][0]=opt[0][1]=nums[0];
+        opt[0][0]=nums[0];
+        opt[0][1]=nums[0];
+        int maxRes=nums[0];
+        cout<<"i=0 "<<" opt[0][0]="<<opt[0][0]<<" opt[0][1]="<<opt[0][1]<<endl;
+        for(int i=1; i<len; i++){
+            if(nums[i]>0){
+                opt[i][0]= min(opt[i-1][0]*nums[i], nums[i]);
+                opt[i][1]= max(opt[i-1][1]*nums[i], nums[i]);
+            }
+            else if(nums[i]<0){
+                opt[i][0]= min(opt[i-1][1]*nums[i], nums[i]);
+                opt[i][1]= max(opt[i-1][0]*nums[i], nums[i]);
+            }
+            else{
+                opt[i][0]=0;
+                opt[i][1]=0;
+            }
+            cout<<"i= "<<i<<" opt[i][0]="<<opt[i][0]<<" opt[i][1]="<<opt[i][1]<<endl;
+            maxRes=max(maxRes, opt[i][0]);
+            maxRes=max(maxRes, opt[i][1]);
+        }
+        return maxRes;
+    }
+};
+```
