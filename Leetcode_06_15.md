@@ -136,4 +136,73 @@ public:
     }
 };*/
 ```
+### 210. Course Schedule II
+here are a total of n courses you have to take, labeled from 0 to n-1.
 
+Some courses may have prerequisites, for example to take course 0 you have to first take course 1, which is expressed as a pair: [0,1]
+
+Given the total number of courses and a list of prerequisite pairs, return the ordering of courses you should take to finish all courses.
+
+There may be multiple correct orders, you just need to return one of them. If it is impossible to finish all courses, return an empty array.
+
+Example 1:
+
+Input: 2, [[1,0]] 
+Output: [0,1]
+Explanation: There are a total of 2 courses to take. To take course 1 you should have finished   
+             course 0. So the correct course order is [0,1] .
+
+Example 2:
+
+Input: 4, [[1,0],[2,0],[3,1],[3,2]]
+Output: [0,1,2,3] or [0,2,1,3]
+Explanation: There are a total of 4 courses to take. To take course 3 you should have finished both     
+             courses 1 and 2. Both courses 1 and 2 should be taken after you finished course 0. 
+             So one correct course order is [0,1,2,3]. Another correct ordering is [0,2,1,3] .
+             
+             
+```
+//1.constructing directed graph, and check whether existing cycle. true: return empty array, false: return one possible
+class Solution {
+public:
+    vector<int> findOrder(int numCourses, vector<pair<int, int>>& prerequisites) {
+        //constructing Adjacency List, and using indegree for checking cycle
+        vector< vector<int> > adjList(numCourses, vector<int>(0) );  //adjList[i]表示从节点i指向的所有节点的list
+        vector<int> inDegree(numCourses, 0);
+        for(auto item: prerequisites){  //item: [first, second], second--->first
+            adjList[item.second].push_back(item.first);
+            inDegree[item.first]+=1;
+        }
+        
+        //Collect node whose inDegree is zero
+        queue<int> zeroD;
+        for(int i=0; i< numCourses; i++){
+            if(inDegree[i]==0)
+                zeroD.push(i);
+        }
+        //construcing the order o taking courses
+        vector<int> orderCourse;
+        while(zeroD.size()>0){
+            int u= zeroD.front();
+            zeroD.pop();
+            orderCourse.push_back(u);
+            for(auto v: adjList[u]){
+                //u--->v
+                inDegree[v]--;
+                if(inDegree[v]==0){
+                    zeroD.push(v);
+                }
+            }
+        }
+        //check all node's indegree are 0,
+        for(int i=0; i<numCourses; i++){
+            if(inDegree[i]!=0){
+                orderCourse.clear();
+                return orderCourse;
+            }
+        }
+        
+        return orderCourse;
+    }
+};
+```
