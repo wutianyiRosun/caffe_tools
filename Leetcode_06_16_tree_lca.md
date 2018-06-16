@@ -74,3 +74,39 @@ public:
     
 };
 ```
+### 238. Product of Array Except Self
+Given an array nums of n integers where n > 1,  return an array output such that output[i] is equal to the product of all the elements of nums except nums[i].
+
+Example:
+
+Input:  [1,2,3,4]
+Output: [24,12,8,6]
+
+Note: Please solve it without division and in O(n).
+```
+//对于长度为N的序列， 任意的i, 我们计算output[i]=nums[0,...,i-1]左边序列乘积用Lprod[i]表示 与 右边序列nums[i+1,...,N-1],用Rprod[i]表示
+//output[i]=Lprod[i]*Rprod[i];
+
+class Solution {
+public:
+    vector<int> productExceptSelf(vector<int>& nums) {
+        //computing Lrpod[i]
+        int len=nums.size();
+        int Lprod[len]; //Lprod[i]表示nums[0,...,i-1]子序列所有元素的乘积
+        Lprod[0]=1;
+        for(int i=1; i<len; i++){
+            Lprod[i]=Lprod[i-1]*nums[i-1];
+        }
+        int Rprod[len];  //Rprod[i]表示子序列nums[i+1, ..., N-1]所有元素乘积
+        Rprod[len-1]=1;
+        for(int i=len-2; i>=0; i--){
+            Rprod[i]=Rprod[i+1]*nums[i+1];
+        }
+        vector<int> output(len, 0);
+        for(int i=0;i<len;i++){
+            output[i]=Lprod[i]*Rprod[i];
+        }
+        return output;
+    }
+};
+```
