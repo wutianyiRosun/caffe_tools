@@ -149,3 +149,67 @@ public:
     }
 };
 ```
+### 300. Longest Increasing Subsequence
+
+Given an unsorted array of integers, find the length of longest increasing subsequence.
+
+Example:
+
+Input: [10,9,2,5,3,7,101,18]
+Output: 4 
+Explanation: The longest increasing subsequence is [2,3,7,101], therefore the length is 4. 
+```
+//Solution1: 时间复杂度O(N^2)
+//用dp[i]表示以元素nums[i]结束的最长子序列， 然后对于dp[i+1], 我们需要考虑所有j, 0<=j<i+1, 比较nums[j]与nums[i]
+//如果nums[i]>nums[j]&& dp[j]+1>dp[i],则dp[i]=dp[j]+1
+/*
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        if(nums.size()==0)
+            return 0;
+        int len=nums.size();
+        vector<int> dp(len,0);
+        dp[0]=1;
+        int maxLen=1;
+        for(int i=1; i<nums.size(); i++){
+            dp[i]=1;
+            for(int j=0; j<i; j++){
+                if(nums[i]>nums[j] && dp[j]+1>dp[i]){
+                    dp[i]=dp[j]+1;
+                }
+                   
+            }
+            if(dp[i]>maxLen)
+                maxLen=dp[i];
+        }
+        return maxLen;
+    }
+};*/
+
+//Solution2,我们先找出一个与该最长递增子序列等长度的序列，  我们建立一个vector<int> res;
+//遍历nums,对于nums[i], if(nums[i]<res[0])则res[0]=nums[i]
+//if(nums[i]>res[res.size()-1]), 则res.push_back(nums[i])
+//if(num[i]>dp[k]&& num[i]<dp[k+1]) 则dp[k+1]=nums[i]
+//时间复杂度O(nlogn)
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        if(nums.size()==0)
+            return 0;
+        int len=nums.size();
+        vector<int> dp;
+        dp.push_back(nums[0]);
+        for(int i=1; i<nums.size(); i++){
+            auto it = lower_bound(dp.begin(), dp.end(), nums[i]);
+            if(it == dp.end()){
+                dp.push_back(nums[i]);
+            }
+            else{
+                *it = nums[i];
+            }
+        }
+        return dp.size();
+    }
+};
+```
