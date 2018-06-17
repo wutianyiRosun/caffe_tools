@@ -106,3 +106,46 @@ public:
     }
 };
 ```
+###    260. Single Number III
+Given an array of numbers nums, in which exactly two elements appear only once and all the other elements appear exactly twice. Find the two elements that appear only once.
+
+Example:
+
+Input:  [1,2,1,3,2,5]
+Output: [3,5]
+
+```
+//Solution: 我们知道对于一个数组，只有一个数出现一次，其他数都出现两次，我们可以对序列所有元素进行异或运算，就可以找到这个
+//只出现一次的数。  现在我们面对的是有两个各出现一次的数。 我们把他们分到两个组， 每个组只包含一个只出现一次的数。 对于如何将x 和 y
+//分到两组， 我们根据x和y的二进制最低的不同位进行分组，也就是二者异或后最第的“1”位  
+class Solution {
+public:
+    vector<int> singleNumber(vector<int>& nums) {
+        vector<int> result;
+        //first, computing res=x^y
+        int res=nums[0];
+        for(int i=1; i<nums.size(); i++){
+            res=res^nums[i];
+        }
+        //finding the lowest "1" bit
+        int flag=0x01;
+        while(true){
+            if(flag&res) break;
+            flag=flag<<1;
+        }
+        int num1=0, num2=0;
+        //dividing two groups according to  the lowers "1" bit of res 
+        for(auto num: nums){
+            if(num & flag){
+                num1^=num;
+            }
+            else{
+                num2^=num;
+            }
+        }
+        result.push_back(num1);
+        result.push_back(num2);
+        return result;
+    }
+};
+```
