@@ -51,7 +51,7 @@ Example 1:
 Input:nums = [1,1,1], k = 2
 Output: 2
 ```
-//动态规划求解，定义数组dp[], dp[i]表示子序列nums[0,..,i]之和
+//定义数组dp[], dp[i]表示子序列nums[0,..,i]之和
 //对于以元素nums[j]结束的连续子序列，我们计算dp[j]-dp[i]==k, i=0,1,...,j-1,等号成立表示子序列nums[i+1,...,j]之和是k
 
 class Solution {
