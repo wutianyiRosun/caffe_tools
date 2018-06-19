@@ -33,3 +33,31 @@ ForwardIter lower_bound(ForwardIter first, ForwardIter last,const _Tp& val)算�
 
 
 ForwardIter upper_bound(ForwardIter first, ForwardIter last, const _Tp& val)算法返回一个非递减序列[first, last)中的第一个大于值val的位置。
+
+### 5. 静态库(.a)和动态库(.so)
+1、静态函数库
+
+这类库的名字一般是libxxx.a；利用静态函数库编译成的文件比较大--空间，因为整个函数库的所有数据都会被整合进目标代码中，他的优点就显而易见了，即编译后的执行程序不需要外部的函数库支持，因为所有使用的函数都已经被编译进去了。当然这也会成为他的缺点，因为如果静态函数库改变了，那么你的程序必须重新编译。
+```
+//pr1.c、pr2.c 和 main.c
+$ gcc -O -c pr1.c pr2.c //编译pr1.c、pr2.c 文件, 生成pr1.o和pr2.o文件
+$ ar -rsv libpr.a pr1.o pr2.o  //链接静态库,为了在编译程序中正确找到库文件，静态库必须按照 lib[name].a 的规则命名，如下例中[name]=pr
+$ gcc -o main main.c -L./ -lpr     // 生成main, -L 加载库文件路径，-l 指明库文件名字
+$ ./main    //执行目标程序
+```
+2、动态函数库
+
+这类库的名字一般是libxxx.so；相对于静态函数库，动态函数库在编译的时候并没有被编译进目标代码中，你的程序执行到相关函数时才调用该函数库里的相应函数，因此动态函数库所产生的可执行文件比较小。由于函数库没有被整合进你的程序，而是程序运行时动态的申请并调用--时间，所以程序的运行环境中必须提供相应的库。动态函数库的改变并不影响你的程序，所以动态函数库的升级/更新比较方便。
+
+#### linux动态库的命名规则
+
+动态链接库的名字形式为 libxxx.so，前缀是lib，后缀名为“.so”。
+
+针对于实际库文件，每个共享库都有个特殊的名字“soname”。在程序启动后，程序通过这个名字来告诉动态加载器该载入哪个共享库。
+
+在文件系统中，soname仅是一个链接到实际动态库的链接。对于动态库而言，每个库实际上都有另一个名字给编译器来用。它是一个指向实际库镜像文件的链接文件（lib+soname+.so)
+```
+//编写四则运算动态库代码, DynamicMath.h DynamicMath.cpp
+$ g++ -fPIC -c DynamicMath.cpp  //生成目标文件，此时要加编译器选项-fpic, -fPIC 创建与地址无关的编译程序（pic，position independent code），是为了能够在多个应用程序间共享
+$ g++ -shared -o libdynmath.so DynamicMath.o //然后，生成动态库，此时要加链接器选项-shared, -shared指定生成动态链接库
+```
