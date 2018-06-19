@@ -114,4 +114,48 @@ public:
     }
 };
 ```
+### 78. Subsets
+Given a set of distinct integers, nums, return all possible subsets (the power set).
 
+Note: The solution set must not contain duplicate subsets.
+
+Example:
+
+Input: nums = [1,2,3]
+Output:
+[
+  [3],
+  [1],
+  [2],
+  [1,2,3],
+  [1,3],
+  [2,3],
+  [1,2],
+  []
+]
+```
+//Solution, 我们遍历元素nums[i],对于nums[i],我们可以把它加入到现有的子集，也可以选着不把它加入到现有的子集， 组合这两种情况，我们得到新的子集， 接着遍历下一个元素。  子集初始化为空集[ [] ],
+class Solution {
+public:
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<int> res0;  //空集
+        vector<vector<int>> res;
+        res.push_back(res0);
+        cout<<res.size()<<endl;
+        for(int i=0; i<nums.size(); i++){
+            vector<vector<int>> midRes;
+            vector<int> oneRes;
+            for(int j=0; j<res.size(); j++){
+                oneRes=res[j];
+                oneRes.push_back(nums[i]);
+                midRes.push_back(oneRes);
+            }
+            for(int k=0; k<midRes.size(); k++){
+                res.push_back(midRes[k]);
+            }
+            midRes.clear();
+        }
+        return res;
+    }
+};
+```
