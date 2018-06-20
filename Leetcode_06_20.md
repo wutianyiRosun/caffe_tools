@@ -99,3 +99,60 @@ public:
     
 };
 ```
+### 114. Flatten Binary Tree to Linked List
+Given a binary tree, flatten it to a linked list in-place.
+
+For example, given the following tree:
+
+    1
+   / \
+  2   5
+ / \   \
+3   4   6
+
+The flattened tree should look like:
+
+1
+ \
+  2
+   \
+    3
+     \
+      4
+       \
+        5
+         \
+          6
+
+```
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+//递归解决， 对于根节点，我们先把左子树整成链表， 根节点的右指针指向左子树的根节点， 然后把指针移动到左子树的最后一个节点， 让其指向右子书整成的链表的表头，如此递//归下去
+class Solution {
+public:
+    void flatten(TreeNode* root) {
+       flattenCore(root);
+    }
+    TreeNode* flattenCore(TreeNode* root){
+        if(root==NULL || (root->left==NULL && root->right==NULL))
+            return root;
+        TreeNode* leftsubTree=root->left;
+        TreeNode* rightsubTree=root->right;
+        root->left=NULL;
+        root->right= flattenCore(leftsubTree);
+        TreeNode* pcur=root;
+        while(pcur->right!=NULL){
+            pcur=pcur->right;
+        }
+        pcur->right= flattenCore(rightsubTree);
+        return root;
+    }
+};
+```
