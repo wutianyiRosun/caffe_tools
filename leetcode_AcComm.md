@@ -61,3 +61,8 @@ $ ./main    //执行目标程序
 $ g++ -fPIC -c DynamicMath.cpp  //生成目标文件，此时要加编译器选项-fpic, -fPIC 创建与地址无关的编译程序（pic，position independent code），是为了能够在多个应用程序间共享
 $ g++ -shared -o libdynmath.so DynamicMath.o //然后，生成动态库，此时要加链接器选项-shared, -shared指定生成动态链接库
 ```
+### 6. c++中map<,> 的常用操作
+声明 map<int,int> data
+插入 data.insert(pair<int,int>(key, value)) or data[key]=value
+查找 auto it=data.find(key)
+遍历 auto it= dataa.begin()  while(it!=data.end()){}
