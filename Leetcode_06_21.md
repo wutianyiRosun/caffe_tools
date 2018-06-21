@@ -283,3 +283,39 @@ public:
     }
 };
 ```
+### 572. Subtree of Another Tree
+ Given two non-empty binary trees s and t, check whether tree t has exactly the same structure and node values with a subtree of s. A subtree of s is a tree consists of a node in s and all of this node's descendants. The tree s could also be considered as a subtree of itself. 
+ ```
+ /**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool isSubtree(TreeNode* s, TreeNode* t) {
+        return isSubtreeCore(s, t) || ( s->left!=NULL ? isSubtree(s->left, t):0) || (s->right!=NULL ? isSubtree(s->right, t):0);
+    }
+    bool isSubtreeCore(TreeNode* s, TreeNode* t){
+        if(s==NULL && t==NULL)
+            return true;
+        if(s==NULL || t==NULL)
+            return false;
+        bool found=false;
+        if(s->val!=t->val)
+            return false;
+        else{
+            if(s->left==NULL && s->right==NULL && t->left==NULL && t->right==NULL) //叶子节点
+                return true;
+            found = isSubtreeCore(s->left, t->left);
+            found=found & isSubtreeCore(s->right, t->right);
+            return found;
+        }
+    }
+};
+```
+ 
