@@ -136,3 +136,44 @@ public:
     }
 };
 ```
+### 461. Hamming Distance
+The Hamming distance between two integers is the number of positions at which the corresponding bits are different.
+
+Given two integers x and y, calculate the Hamming distance.
+
+Note:
+0 ≤ x, y < 231.
+
+Example:
+
+Input: x = 1, y = 4
+
+Output: 2
+
+Explanation:
+1   (0 0 0 1)
+4   (0 1 0 0)
+       ↑   ↑
+
+The above arrows point to positions where the corresponding bits are different.
+
+```
+//从低位到位，把x和y对应位的数字(0 or 1)取出，然后在比较， 
+//用一个模板数分别与x和y按位与， 00001, 0010, 0100, 1000,
+class Solution {
+public:
+    int hammingDistance(int x, int y) {
+        long temp=1;
+        int count=0;
+        int max_v=max(x,y);
+        while(temp <= max_v){
+            int result=(temp & x)^(temp & y);
+            if(result!=0){
+                count+=1;
+            } 
+            temp=temp<<1;
+        }
+        return count;
+    }
+};
+```
