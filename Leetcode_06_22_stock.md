@@ -88,3 +88,31 @@ public:
 };
 
 ```
+###  322. Coin Change
+You are given coins of different denominations and a total amount of money amount. Write a function to compute the fewest number of coins that you need to make up that amount. If that amount of money cannot be made up by any combination of the coins, return -1.
+
+Example 1:
+
+Input: coins = [1, 2, 5], amount = 11
+Output: 3 
+Explanation: 11 = 5 + 5 + 1
+
+```
+//动态规划求解，假设n=amount, 我们定义,dp[n+1], dp[i]表示凑集面值为i所需的最小的硬币的数量,dp[i+1]=min( dp[i-coins[j]]+1), j=0,...,coins.size()-1
+//时间复杂度O(coins.size()*amount.size())
+class Solution {
+public:
+    int coinChange(vector<int>& coins, int amount) {
+        int n=amount+1;
+        vector<int> dp(n, amount+1); //dp[0]=0表示数量为0需要0块硬币
+        dp[0]=0;
+        for(int i=1; i<= amount; i++){
+            for(int j=0; j<coins.size(); j++){
+                if(i-coins[j]>=0 && dp[i] > dp[i-coins[j]]+1 )
+                    dp[i]=dp[i-coins[j]]+1;
+            }
+        }
+        return dp[amount]<amount+1? dp[amount]: -1;
+    }
+};
+```
