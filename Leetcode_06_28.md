@@ -52,3 +52,47 @@ public:
     }
 };
 ```
+### 416. Partition Equal Subset Sum
+Given a non-empty array containing only positive integers, find if the array can be partitioned into two subsets such that the sum of elements in both subsets is equal.
+
+Note:
+
+    Each of the array element will not exceed 100.
+    The array size will not exceed 200.
+
+Example 1:
+
+Input: [1, 5, 11, 5]
+
+Output: true
+
+Explanation: The array can be partitioned as [1, 5, 5] and [11].
+```
+
+//Solution: 考虑先给数组排序，对于每一个元素，我们选或者不选两种可能，递归下去
+class Solution {
+public:
+    bool canPartition(vector<int>& nums) {
+        if(nums.size()<=1)
+            return false;
+        int sum=0;
+        for(int i=0; i<nums.size(); i++){
+            sum+= nums[i];
+        }
+        if(sum%2 !=0)
+            return false;
+        sum=sum/2;
+        int size= nums.size();
+        sort(nums.rbegin(),nums.rend());
+        return helper(nums, 0, sum);
+    }
+    bool helper(vector<int> & nums, int index, int  sum){
+        if(nums[index]==sum || sum==0)
+            return true;
+        if(sum<0 || index>nums.size()-1 || sum<nums[index])
+            return false;
+        return helper(nums, index+1,  sum-nums[index]) || helper(nums, index+1, sum);
+    }
+};
+
+```
