@@ -96,3 +96,75 @@ public:
 };
 
 ```
+### 581. Shortest Unsorted Continuous Subarray
+Given an integer array, you need to find one continuous subarray that if you only sort this subarray in ascending order, then the whole array will be sorted in ascending order, too.
+
+You need to find the shortest such subarray and output its length.
+
+Example 1:
+
+Input: [2, 6, 4, 8, 10, 9, 15]
+Output: 5
+Explanation: You need to sort [6, 4, 8, 10, 9] in ascending order to make the whole array sor
+```
+//Solution1: 先复制整个数组，然后排序，再找第一个不匹配的元素与最后一个不匹配的元素
+//时间复杂度O(NlogN)
+/*
+class Solution {
+public:
+    int findUnsortedSubarray(vector<int>& nums) {
+        if(nums.size()<=1)
+            return 0;
+        vector<int> nums_copy;
+        nums_copy.assign(nums.begin(), nums.end());
+        sort(nums_copy.begin(), nums_copy.end());
+        int left=0;
+        int index=0;
+        while(index<nums.size() && nums[index]== nums_copy[index]){
+            index++;
+        }
+        left=index;
+        if(left==nums.size()) //完全匹配
+            return 0;
+        int right=nums.size()-1;
+        index=nums.size()-1;
+        while(index>=0 &&nums[index]== nums_copy[index]){
+            index--;
+        }
+        right=index;
+        return right-left+1;
+    }
+};
+*/
+//Solution2: 时间复杂度O(N), 空间复杂度O(N)
+//我们只需找出无序子数左右边界即可，首先我们从头开始遍历数组，用一个stack来保存我们最开始的上升子序列，当我们碰到一个下降趋势的元素//即a[i]>a[i+1],此时我们需要确定a[i+1]的正确位置，即与栈中元素进行比较，找到合适的位置k,这样我们遍历整个数组，求出最小的k即为无序//子数组的左边界，同理找到右边界
+class Solution{
+public:
+    int findUnsortedSubarray(vector<int>& nums) {
+        if(nums.size()<=1)
+            return 0;
+        int left=INT_MAX;
+        stack<int> ass_stack;
+        for(int i=0; i<nums.size(); i++){
+           while(ass_stack.size()>0 && nums[ass_stack.top()]>nums[i]){
+               left=min(left, ass_stack.top());
+               ass_stack.pop();
+               
+            }
+            ass_stack.push(i);
+        }
+        while(ass_stack.size()>0)
+            ass_stack.pop();
+        
+        int right=0;
+        for(int i=nums.size()-1; i>=0; i--){
+            while(ass_stack.size()>0 && nums[ass_stack.top()]<nums[i]){
+                right= max(right, ass_stack.top());
+                ass_stack.pop();
+            }
+            ass_stack.push(i);
+        }
+        return left== INT_MAX? 0: right-left+1;
+    }
+};
+```
