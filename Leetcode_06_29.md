@@ -92,3 +92,32 @@ public:
     }
 };
 ```
+
+### 338. Counting Bits
+Given a non negative integer number num. For every numbers i in the range 0 ≤ i ≤ num calculate the number of 1's in their binary representation and return them as an array.
+
+Example:
+For num = 5 you should return [0,1,1,2,1,2]. 
+```
+class Solution {
+public:
+    vector<int> countBits(int num) {
+        vector<int> res(num+1,0);
+        if(num==0){
+            return res;
+        }
+        res[0]=0;  //val=0
+        res[1]=1;  //val=1
+        res[2]=1;
+        int nearest=2;
+        for(int i=3; i<=num; i++){
+            nearest= powerOf2(i)? i: nearest;
+            res[i]= res[i-nearest]+1;
+        }
+        return res;
+    }
+    bool powerOf2(int n){ //n是否为2的指数次方
+        return (n&(n-1))==0;
+    }
+};
+```
