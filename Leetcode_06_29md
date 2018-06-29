@@ -1,0 +1,35 @@
+### 543. Diameter of Binary Tree
+Given a binary tree, you need to compute the length of the diameter of the tree. The diameter of a binary tree is the length of the longest path between any two nodes in a tree. 
+This path may or may not pass through the root. 
+```
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+//Solution： 对于1颗树， 这个最长直径如果经过根节点
+//也可能不经过该根节点， 经过其左儿子节点或者右儿子节点
+class Solution {
+public:
+    int diameterOfBinaryTree(TreeNode* root) {
+        if(root==NULL)
+            return 0;
+        int depth=computeMaxDepth(root->left)+computeMaxDepth(root->right);
+        int left_depth = diameterOfBinaryTree(root->left);
+        int right_depth = diameterOfBinaryTree(root->right);
+        return max(max(depth, left_depth), right_depth);
+    }
+    int computeMaxDepth(TreeNode* root){
+        if(root==NULL)
+            return 0;
+        
+        int left_h=computeMaxDepth(root->left);
+        int right_h= computeMaxDepth(root->right);
+        return left_h>right_h ? left_h+1:right_h+1;
+    }
+};
+```
