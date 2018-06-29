@@ -93,6 +93,7 @@ public:
 };
 ```
 
+
 ### 338. Counting Bits
 Given a non negative integer number num. For every numbers i in the range 0 ≤ i ≤ num calculate the number of 1's in their binary representation and return them as an array.
 
@@ -105,7 +106,7 @@ public:
         vector<int> res(num+1,0);
         if(num==0){
             return res;
-        }
+#        }
         res[0]=0;  //val=0
         res[1]=1;  //val=1
         res[2]=1;
@@ -117,7 +118,8 @@ public:
         return res;
     }
     bool powerOf2(int n){ //n是否为2的指数次方
-        return (n&(n-1))==0;
+
+return (n&(n-1))==0;
     }
 };
 ```
@@ -132,7 +134,8 @@ Input: [1,2,3]
 
        1
       / \
-     2   3
+
+2   3
 
 Output: 6
 ```
@@ -142,7 +145,7 @@ Output: 6
  *     int val;
  *     TreeNode *left;
  *     TreeNode *right;
- *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+` *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
 class Solution {
@@ -152,7 +155,7 @@ public:
         maxPathSumCore(root, res);
         return res;
     }
-    int maxPathSumCore(TreeNode* root, int& res){
+`    int maxPathSumCore(TreeNode* root, int& res){
         if(root==NULL)
             return 0;
         int left=maxPathSumCore(root->left, res);
@@ -162,6 +165,45 @@ public:
         if(left+right+root->val > res)
             res=left+right+root->val;
         return root->val+max(right, left);
+    }
+};
+```
+### 128. Longest Consecutive Sequence
+
+
+Given an unsorted array of integers, find the length of the longest consecutive elements sequence.
+Your algorithm should run in O(n) complexity.
+Example:
+Input: [100, 4, 200, 1, 3, 2]
+Output: 4
+Explanation: The longest consecutive elements sequence is [1, 2, 3, 4]. Therefore its length is 4.
+
+
+```
+//我们先把数组全部放入到unordered_set中，然后遍历数组元素nums[i]，找以nums[i]元素开始的连续子序列，并统计其长度
+//时间复杂度，O(nlogn)，空间复杂度O(N)
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        if(nums.size()==0)
+            return 0;
+        unordered_set<int> nums_set;
+        for(int i=0; i<nums.size(); i++)
+            nums_set.insert(nums[i]);
+        int res_length=1, current_length=1;
+        int currentNum=0;
+        for(int i=0; i<nums.size(); i++){
+            if(nums_set.find(nums[i]-1)==nums_set.end()){
+                currentNum=nums[i]+1;
+                current_length=1;
+                while(nums_set.find(currentNum)!=nums_set.end()){
+                    current_length++;
+                    currentNum++;
+                }
+                res_length=max(current_length, res_length );
+            }
+        }
+        return res_length;
     }
 };
 ```
