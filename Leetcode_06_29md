@@ -33,3 +33,62 @@ public:
     }
 };
 ```
+### 337. House Robber III
+
+ The thief has found himself a new place for his thievery again. There is only one entrance to this area, 
+ called the "root." Besides the root, each house has one and only one parent house. After a tour, the smart
+ thief realized that "all houses in this place forms a binary tree". It will automatically contact the police 
+ if two directly-linked houses were broken into on the same night.
+Determine the maximum amount of money the thief can rob tonight without alerting the police.
+
+```
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+/*
+class Solution {
+public:
+    int rob(TreeNode* root) {
+        if(root==NULL)
+            return 0;
+        //根节点偷
+        int money_1= root->val;
+        if(root->left)
+            money_1+=rob(root->left->right)+rob(root->left->left);
+        if(root->right)
+            money_1+=rob(root->right->left)+rob(root->right->right);
+        //根节点不偷
+        int money_2 =0;
+        if(root->left)
+            money_2+= rob(root->left);
+        if(root->right)
+            money_2+= rob(root->right);
+        return max(money_1, money_2);
+        
+    }
+};*/
+
+//深度优先搜索求解
+class Solution{
+public:
+    int rob(TreeNode* root){
+        return dfs(root, false);
+    }
+    int dfs(TreeNode* root, bool flag){
+        if(root==NULL)
+            return 0;
+        if(!flag){
+            //前者代表根节点偷， 后者代表根节点不偷
+            return max(root->val+dfs(root->left, true)+dfs(root->right, true), dfs(root->left, false)+dfs(root->right, false) );
+        }
+        if(flag) //flag为真，当前根节点不能偷
+            return  dfs(root->left, false)+dfs(root->right, false);
+    }
+};
+```
