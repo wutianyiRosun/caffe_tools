@@ -268,3 +268,40 @@ public:
 };
 
 ```
+### 621. Task Scheduler
+Given a char array representing tasks CPU need to do. It contains capital letters A to Z where different letters represent different tasks.Tasks could be done without original order. Each task could be done in one interval. For each interval, CPU could finish one task or just be idle.
+
+However, there is a non-negative cooling interval n that means between two same tasks, there must be at least n intervals that CPU are doing different tasks or just be idle.
+
+You need to return the least number of intervals the CPU will take to finish all the given tasks.
+
+Example 1:
+
+Input: tasks = ["A","A","A","B","B","B"], n = 2
+Output: 8
+Explanation: A -> B -> idle -> A -> B -> idle -> A -> B.
+```
+//对于这道题，我们仔细观察，发现可以出现次数最多的那个任务作为间隔，间隔中间的空格数为n,则我们用其他任务或者idle来填，
+//假设这堵任务中出现次数最多的那个任务的出现次数为K, 则我们需要弄K-1段间隔，每段间隔中间插入n个任务或者idle,则时间为(K-1)*(n+1)
+//这样有个特殊情况，如果出现次数为K的任务有多个假设为m个，则我们最后还需让GPU处理这m-1个任务 总时间为 (K-1)*(n+1)+m-1, 当m=1时也成立
+class Solution {
+public:
+    int leastInterval(vector<char>& tasks, int n) {
+        vector<int> nums(26,0);
+        for(int i=0; i<tasks.size(); i++)
+            nums[tasks[i]-'A']++;
+        sort(nums.begin(), nums.end());
+        //计算出现次数为K的任务个数
+        int m=1;
+        int i=24;
+        int K= nums[25];
+        while(i>=0 && nums[i]==nums[25]){
+            i--;
+            m++;
+        }
+        int time=(K-1)*(n+1)+m;
+        int time_1=tasks.size(); //处理间隔为0的情况
+        return max(time_1, time );
+    }
+};
+```
