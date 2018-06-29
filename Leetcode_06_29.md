@@ -207,3 +207,64 @@ public:
     }
 };
 ```
+
+### 79. Word Search
+Given a 2D board and a word, find if the word exists in the grid.
+
+The word can be constructed from letters of sequentially adjacent cell, where "adjacent" cells are those horizontally or vertically neighboring. The same letter cell may not be used more than once.
+
+Example:
+
+board =
+[
+  ['A','B','C','E'],
+  ['S','F','C','S'],
+  ['A','D','E','E']
+]
+
+Given word = "ABCCED", return true.
+Given word = "SEE", return true.
+Given word = "ABCB", return false.
+
+```
+//Solution: 深度优先搜索
+class Solution {
+public:
+    bool exist(vector<vector<char>>& board, string word) {
+        int m= board.size();  // m行
+        int n= board[0].size(); //n列
+        for(int i=0; i<m; i++){
+            for(int j= 0; j<n; j++){
+                if(board[i][j]==word[0]){
+                    if(existCore(board, word, i, j,  0))
+                        return true;
+                }
+            }
+        }
+        return false;
+    }
+    bool existCore(vector<vector<char>>& board, string word, int start_m, int start_n,  int index){
+        int m= board.size();  // m行
+        int n= board[0].size(); //n列
+        if(word.size()-1==index && word[index]==board[start_m][start_n])
+            return true;
+        
+        if(word[index]== board[start_m][start_n]){
+            char temp=board[start_m][start_n];
+            board[start_m][start_n]='?';  //表示已经访问过的节点
+            if(start_m+1<m && existCore(board, word, start_m + 1, start_n,  index+1) )  //下方邻居
+                return true;
+            if(start_n+1<n && existCore(board, word, start_m, start_n+1, index+1) )  //右方邻居
+                return true;
+            if(start_n-1>=0 && existCore(board, word, start_m, start_n-1,  index+1)) //左边邻
+                return true;
+            if( start_m-1>=0 && existCore(board, word, start_m-1, start_n,  index+1)) //上方邻
+                return true;
+            board[start_m][start_n]=temp;
+        }
+        return false;
+        
+    }
+};
+
+```
