@@ -96,3 +96,43 @@ public:
     }
 };
 ```
+### 22. Generate Parentheses
+ Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
+
+For example, given n = 3, a solution set is:
+
+[
+  "((()))",
+  "(()())",
+  "(())()",
+  "()(())",
+  "()()()"
+]
+
+```
+//Solution: 我们把这个问题看出一系列决策问题， 给定一个数n,我们需要2n次操作，每次分配( 或者)，但需要保证有效性，匹配，即剩余的右括号数量大于等于剩余的左括号数量
+//根据这个规则，写出递归函数
+class Solution {
+public:
+    vector<string> generateParenthesis(int n) {
+        vector<string> res;
+        if(n<=0)
+            return res;
+        string temp="";
+        GenParCore(n, n, temp, res);
+        return res;  
+    }
+    void GenParCore(int left_n,int right_n, string temp, vector<string> & res){
+        //cout<<"left= "<<left_n<<" right_n= "<<right_n<<" "<<temp<<endl;
+        if(left_n==0 && right_n==0)
+            res.push_back(temp);
+        if(right_n>=left_n){
+            if(left_n>=1)
+                GenParCore(left_n-1, right_n,temp+"(", res);
+            if(right_n>=1)
+                GenParCore(left_n, right_n-1, temp+")", res);
+        }
+        
+    }
+};
+```
