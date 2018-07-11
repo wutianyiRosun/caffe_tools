@@ -47,3 +47,95 @@ public:
 };
     
 ```
+
+### 130. Surrounded Regions
+Given a 2D board containing 'X' and 'O' (the letter O), capture all regions surrounded by 'X'.
+
+A region is captured by flipping all 'O's into 'X's in that surrounded region.
+
+Example:
+
+X X X X
+X O O X
+X X O X
+X O X X
+
+After running your function, the board should be:
+
+X X X X
+X X X X
+X X X X
+X O X X
+
+Explanation:
+
+Surrounded regions shouldn’t be on the border, which means that any 'O' on the border of the board are not flipped to 'X'. Any 'O' that is not on the border and it is not connected to an 'O' on the border will be flipped to 'X'. Two cells are connected if they are adjacent cells connected horizontally or vertically.
+
+```
+//Solution: 我们首先从board的边界开始，对于边界上的元素'O'，我们将与该元素相链接的'O'元素都标记为 '1'.然后子遍历board矩阵中为'1'的元素替换成'O',
+//为'0'的元素替换成'X'
+class Solution {
+public:
+    void propagation(vector<vector<char>> & board, int i, int j){
+        int m=board.size();
+        int n= board[0].size();
+        if(board[i][j]!='O')
+            return ;
+        if(board[i][j]=='O'){  //board[i][j]=='O'
+            board[i][j]='1';
+            if(i>0)
+                propagation(board, i-1, j);
+            if(i<m-1)
+                propagation(board, i+1, j);
+            if(j>0)
+                propagation(board, i, j-1);
+            if(j<n-1)
+                propagation(board, i, j+1);
+            
+        }
+    }
+    void solve(vector<vector<char>>& board) {
+        int m=board.size();
+        if(m==0)
+            return;
+        int n= board[0].size();
+        if(n==0)
+            return;
+        //第一行和最后一行做propagation
+        for(int j=0; j<n; j++){
+            if(board[0][j]=='O'){
+                //board[0][j]='1';
+                propagation(board, 0, j);
+            }
+            if(board[m-1][j]=='O'){
+                //board[m-1][j]='1';
+                propagation(board, m-1, j);
+            }
+        }
+        //第一列和最后一列
+        for(int i=0; i<m; i++){
+            if(board[i][0]=='O'){
+                //board[i][0]='1';
+                propagation(board, i, 0);
+            }
+            if(board[i][n-1]=='O'){
+                //board[i][n-1]='1';
+                propagation(board, i, n-1);
+            }
+        }
+        
+        for(int i=0; i<m; i++){
+            for(int j=0; j<n; j++){
+                if(board[i][j]=='O'){
+                    board[i][j]='X';
+                }
+                if(board[i][j]=='1'){
+                    board[i][j]='O';
+                }
+                
+            }
+        }
+        
+    }
+};
+```
