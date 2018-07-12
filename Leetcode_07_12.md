@@ -53,3 +53,41 @@ public:
 };
 ```
 
+### 14. Longest Common Prefix
+Write a function to find the longest common prefix string amongst an array of strings.
+
+If there is no common prefix, return an empty string "".
+
+Example 1:
+
+Input: ["flower","flow","flight"]
+Output: "fl"
+
+Example 2:
+
+Input: ["dog","racecar","car"]
+Output: ""
+Explanation: There is no common prefix among the input strings.
+
+```
+//我们先遍历第一个字符串的所有字符， 然后比较其余所有字符串该位置的字符是否与这个字符相等
+class Solution {
+public:
+    string longestCommonPrefix(vector<string>& strs) {
+        if(strs.empty())
+            return "";
+        string ret;
+        for(int i = 0; i < strs[0].length() ; ++i)
+        {
+            //for(size_t j = 0; j < strs.size() - 1; ++j)
+            for(int j = 0; j < strs.size() - 1; ++j)
+            {   
+                if(strs[j][i] != strs[j+1][i])
+                    return ret;
+            }
+            ret += strs[0][i];
+        } 
+        return  ret;
+    }
+};
+```
