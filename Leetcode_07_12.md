@@ -91,3 +91,81 @@ public:
     }
 };
 ```
+
+### 456. 132 Pattern
+ Given a sequence of n integers a1, a2, ..., an, a 132 pattern is a subsequence ai, aj, ak such that i < j < k and ai < ak < aj. Design an algorithm that takes a list of n numbers as input and checks whether there is a 132 pattern in the list.
+
+Note: n will be less than 15,000.
+
+Example 1:
+
+Input: [1, 2, 3, 4]
+
+Output: False
+
+Explanation: There is no 132 pattern in the sequence.
+
+Example 2:
+
+Input: [3, 1, 4, 2]
+
+Output: True
+
+Explanation: There is a 132 pattern in the sequence: [1, 4, 2].
+
+Example 3:
+
+Input: [-1, 3, 2, 0]
+
+Output: True
+
+Explanation: There are three 132 patterns in the sequence: [-1, 3, 2], [-1, 3, 0] and [-1, 2, 0]
+
+```
+//Solution1: O(n^3)枚举 me Limit Exceeded]
+/*
+class Solution {
+public:
+    bool find132pattern(vector<int>& nums) {
+        if(nums.size()<3)
+            return 0;
+        for(int i=0; i<nums.size()-2; i++){
+            for(int j=i+1; j<nums.size()-1; j++){
+                if(nums[j]>nums[i]){
+                    for(int k=j+1; k<nums.size(); k++){
+                        if(nums[i]<nums[k] && nums[k]<nums[j])
+                            return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+};*/
+//Solution 2: 我们定义一个数组min[n], min[i]保存序列nums[0,...,i]中最小的元素, 然后我们开一个stack,我们从数组尾部往前遍历， 如果stack为空，则把元素压人stack中，如果stack不为空且当前元素小于stack顶的元素， 则将当前元素压人stack中,如果当前元素大于stack顶元素，则将stack顶的元素pop出来， 知道
+class Solution {
+public:
+    bool find132pattern(vector<int>& nums) {
+        if(nums.size()<3)
+            return 0;
+        int len= nums.size();
+        int mins[len];
+        mins[0]=nums[0];
+        for(int i=1; i<len; i++){
+            mins[i]=min(mins[i-1], nums[i]);
+        }
+        stack<int> numsk_stack;
+        for(int i=len-1; i>=0; i--){
+            if(nums[i]>mins[i]){
+                while(numsk_stack.size()>0 && numsk_stack.top()<=mins[i] )  //如果当前栈顶元素小于mins[i]， pop
+                    numsk_stack.pop();
+                if(numsk_stack.size()>0 && numsk_stack.top()< nums[i]) // mins[i]<numsk_stack.top()< nums[i]
+                    return true;
+                numsk_stack.push(nums[i]);
+            }
+        }
+        return false;
+    }
+};
+
+```
