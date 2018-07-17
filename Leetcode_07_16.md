@@ -165,3 +165,72 @@ public:
     }
 };
 ```
+### 378. Kth Smallest Element in a Sorted Matrix
+Given a n x n matrix where each of the rows and columns are sorted in ascending order, find the kth smallest element in the matrix.
+
+Note that it is the kth smallest element in the sorted order, not the kth distinct element.
+
+Example:
+
+matrix = [
+   [ 1,  5,  9],
+   [10, 11, 13],
+   [12, 13, 15]
+],
+k = 8,
+
+return 13.
+```
+//Solution: 利用优先队列，先把矩阵第1列元素存放到优先队列中，对优先队列pop k-1次，则优先队列top()处的元素是第k大元素
+//每次pop()一个元素，同时把其右邻居元素压人优先队列当中,如果没有则跳过
+
+struct record{
+    int x;
+    int y;
+    int val;
+    record(int tmp_x, int tmp_y, int tmp_val){
+        x=tmp_x;
+        y=tmp_y;
+        val=tmp_val;
+    }
+};
+
+bool cmp(record & t1, record & t2){
+    return t1.val>t2.val; //"<"为从大到小排列，">"为从小到大排列  
+}
+class Solution {
+public:
+   
+    int kthSmallest(std::vector<std::vector<int>>& matrix, int k) {
+         struct record{
+            int x;
+            int y;
+            int val;
+            record(int tmp_x, int tmp_y, int tmp_val){
+                x=tmp_x;
+                y=tmp_y;
+                val=tmp_val;
+            }
+           };
+
+        auto cmp= [](const record & t1, const record & t2){
+            return t1.val>t2.val; //"<"为从大到小排列，">"为从小到大排列  
+        };
+        //std::priority_queue<record, std::vector<record>, decltype(cmp)> pq(cmp);
+        priority_queue<record, std::vector<record>, decltype(cmp)> pq(cmp);
+        int n=matrix.size();
+        for(int i=0; i<n; i++){
+            pq.push(record(i,0, matrix[i][0]));
+        }
+        for(int j=0; j<k-1; j++){  //pop k-1
+            auto tmp=pq.top();
+            pq.pop();
+            if(tmp.y==(n-1)){
+                continue;
+            }
+            pq.push(record(tmp.x, tmp.y+1, matrix[tmp.x][tmp.y+1]));
+        }
+        return pq.top().val;
+    }
+};
+```
