@@ -208,6 +208,38 @@ public:
     }
 };
 ```
+
+```
+class Solution {
+public:
+    int maxProduct(vector<int>& nums) {
+        int len= nums.size();
+        if(len==1)
+            return nums[0];
+        int opt[len][2];  //opt[i][0]表示以nums[i]结束的子数组乘积最小值,opt[i][1]表示以元素nums[i]结束的子数组乘积的最大值,预案为题等价于求max(dp)
+        //init opt[0][0]=opt[0][1]=nums[0];
+        opt[0][0]=nums[0];
+        opt[0][1]=nums[0];
+        int maxRes=nums[0];
+        cout<<"i=0 "<<" opt[0][0]="<<opt[0][0]<<" opt[0][1]="<<opt[0][1]<<endl;
+        for(int i=1; i<len; i++){
+            if(nums[i]!=0){
+                opt[i][0]= min( min(opt[i-1][0]*nums[i], nums[i]), nums[i]*opt[i-1][1]);  //当前最小值只有三种可能来源
+                opt[i][1]= max( max(opt[i-1][1]*nums[i], nums[i]), opt[i-1][0]*nums[i]); //当前最大值只有三种可能来源
+            }
+            else{
+                opt[i][0]=0;
+                opt[i][1]=0;
+            }
+            cout<<"i= "<<i<<" opt[i][0]="<<opt[i][0]<<" opt[i][1]="<<opt[i][1]<<endl;
+            maxRes=max(maxRes, opt[i][0]);
+            maxRes=max(maxRes, opt[i][1]);
+        }
+        return maxRes;
+    }
+};
+```
+
 ### 198. House Robber
 You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed, the only constraint stopping you from robbing each of them is that adjacent houses have security system connected and it will automatically contact the police if two adjacent houses were broken into on the same night.
 
