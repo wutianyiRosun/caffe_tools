@@ -297,3 +297,23 @@ public:
     }
 };
 ```
+
+```
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        int len = nums.size();
+        if(len==0)
+            return 0;
+        int dp[len];  //dp[i]表示前面0,.., i个房子偷的最大值
+        dp[0]=nums[0];
+        for(int i=1;i<len;i++)
+            if(i-2>=0)
+                dp[i] = max(dp[i-1],nums[i]+dp[i-2]);
+            else
+                dp[i]= max(dp[i-1], nums[i]);
+        cout<<endl;
+        return dp[len-1];
+    }
+};
+```
