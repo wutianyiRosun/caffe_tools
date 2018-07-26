@@ -63,6 +63,61 @@ b)推断结点node是否为空，若为空。则取出栈顶结点并出栈，�
 否则反复a)步直到当前结点为空或者栈为空（能够发现栈中的结点就是为了訪问右孩子才存储的）
 */
 ```
+
+### 94. Binary Tree Inorder Traversal
+```
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+//中序遍历递归方式实现
+/*
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector<int> res;
+        InorderTraversal(root, res);
+        return res;
+    }
+    void InorderTraversal(TreeNode* root, vector<int> & res){
+        if(root){
+            InorderTraversal(root->left, res);
+            res.push_back(root->val);
+            InorderTraversal(root->right, res);
+        }
+    }
+};
+*/
+//中序遍历非递归方式
+class Solution {
+public:
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector<int> res;
+        stack<TreeNode*> st;
+        TreeNode * pcur=root;
+        while(pcur || st.size()>0){
+            if(pcur){
+                st.push(pcur);
+                pcur=pcur->left;
+            }
+            else{
+                TreeNode * node = st.top();
+                st.pop();
+                res.push_back(node->val);
+                pcur=node->right;
+            }
+        }
+        return res;
+    }
+    
+    
+};
+```
 ### 145. Binary Tree Postorder Traversal
 Given a binary tree, return the postorder traversal of its nodes' values.
 ```
