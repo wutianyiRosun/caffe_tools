@@ -190,22 +190,29 @@ class Solution {
 public:
     int findMin(vector<int>& nums) {
         int len=nums.size();
-        int start=0, end = len-1;
-        int middle=(start+end)/2;
-        if(nums[0]<nums[len-1])//排序数组
+        if(nums.size()==1)
             return nums[0];
-        while(start<end && middle>start){
-            
-           
-            if(nums[middle]>nums[start]){ //左子数组递增,最小值在右边子数组
-                start=middle;
-            } 
-            if(nums[middle]< nums[end]){  //右子数组递增, 最小值在左边子数组
-                end=middle;
+        if(nums[0]<nums[len-1])
+            return nums[0];
+        int start=0;
+        int end=len-1;
+        int target=0;
+        //while(nums[start]>nums[end] ){
+        while( start < end ){
+            if(end -start==1){
+                target=end;
+                break;
             }
-            middle=(start+end)/2;
+            int mid= (start+end)/2;
+            if(nums[start]<=nums[mid]){  //左边递增, start指左边递增数组，最后指向这部分边界
+                start=mid;
+            }
+            if(nums[mid]<=nums[end]){  //右边递增  , end 指向右边递增子数组左边界， 所以最小元素索引是最后一次循环的end
+                end=mid;
+            }
         }
-        return nums[start]>nums[end]?nums[end]:nums[start];
+        return nums[target];
+    
     }
 };
 ```
