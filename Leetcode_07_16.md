@@ -92,7 +92,7 @@ Explanation: Integer 128 has binary representation 00000000000000000000000010000
 ```
 class Solution {
 public:
-    int hammingWeight(uint32_t n) {
+   /* int hammingWeight(uint32_t n) {
         uint32_t tmp=1;
         int count=0;
         if( (tmp & n)==1)
@@ -106,7 +106,18 @@ public:
         
         
     }
+    */
+     int hammingWeight(uint32_t n) {
+         int count=0;
+         while(n){
+             count+=1;
+             n=n&(n-1);
+         }
+         return count;
+        
+    }
 };
+         
          
 ```
 ### 230. Kth Smallest Element in a BST
