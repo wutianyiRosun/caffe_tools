@@ -163,19 +163,16 @@ Explanation: There are a total of 4 courses to take. To take course 3 you should
              
              
 ```
-//1.constructing directed graph, and check whether existing cycle. true: return empty array, false: return one possible
+ //1.constructing directed graph, and check whether existing cycle. true: return empty array, false: return one possible
 class Solution {
 public:
-
-       vector<int> findOrder(int numCourses, vector<pair<int, int>>& prerequisites) {
+    vector<int> findOrder(int numCourses, vector<pair<int, int>>& prerequisites) {
         //constructing Adjacency List, and using indegree for checking cycle
-class Solution {
-public:
-    vector< vector<int> > adjList(numCourses, vector<int>(0) );  //adjList[i]表示从节点i指向的所有节点的list
+        vector< vector<int> > adjList(numCourses, vector<int>(0) );  //adjList[i]表示从节点i指向的所有节点的list
         vector<int> inDegree(numCourses, 0);
         for(auto item: prerequisites){  //item: [first, second], second--->first
             adjList[item.second].push_back(item.first);
-·            inDegree[item.first]+=1;
+            inDegree[item.first]+=1;
         }
         
         //Collect node whose inDegree is zero
