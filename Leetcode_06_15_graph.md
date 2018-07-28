@@ -155,85 +155,8 @@ Explanation: There are a total of 2 courses to take. To take course 1 you should
 Example 2:
 
 Input: 4, [[1,0],[2,0],[3,1],[3,2]]
-class Solution {
-public:
-    int maximalSquare(vector<vector<char>>& matrix) {
-        if(matrix.size()==0)
-            return 0;
-        if(matrix[0].size()==0)
-            return 0;
-        int m=matrix.size();
-        int n=matrix[0].size();
-        vector< vector<int>> dp(m, vector<int>(n,0));
-        //初始化第一行
-        int res=0;
-        for(int i=0; i<n; i++){
-            if(matrix[0][i]=='1'){
-                dp[0][i]=1;
-                res=max(res, dp[0][i]);
-            }
-        }
-        //初始化第一列
-         for(int i=0; i<m; i++){
-            if(matrix[i][0]=='1'){
-                dp[i][0]=1;
-                res=max(res, dp[i][0]);
-            }
-        }
-        
-        for(int i=1; i<m; i++){
-            for(int j=1; j<n; j++){
-                if(matrix[i][j]=='1'){
-                    dp[i][j]= min( min(dp[i-1][j], dp[i][j-1]), dp[i-1][j-1])+1;
-                    res=max(res, dp[i][j]*dp[i][j]);
-                }
-class Solution {
-public:
-    int maximalSquare(vector<vector<char>>& matrix) {
-        if(matrix.size()==0)
-            return 0;
-        if(matrix[0].size()==0)
-            return 0;
-        int m=matrix.size();
-        int n=matrix[0].size();
-        vector< vector<int>> dp(m, vector<int>(n,0));
-        //初始化第一行
-        int res=0;
-        for(int i=0; i<n; i++){
-            if(matrix[0][i]=='1'){
-                dp[0][i]=1;
-                res=max(res, dp[0][i]);
-            }
-        }
-        //初始化第一列
-         for(int i=0; i<m; i++){
-            if(matrix[i][0]=='1'){
-                dp[i][0]=1;
-                res=max(res, dp[i][0]);
-            }
-        }
-        
-        for(int i=1; i<m; i++){
-            for(int j=1; j<n; j++){
-                if(matrix[i][j]=='1'){
-                    dp[i][j]= min( min(dp[i-1][j], dp[i][j-1]), dp[i-1][j-1])+1;
-                    res=max(res, dp[i][j]*dp[i][j]);
-                }
-                else
-                    dp[i][j]=0;
-                
-            }
-        }
-        return res;
-    }
-};                else
-                    dp[i][j]=0;
-                
-            }
-        }
-        return res;
-    }
-};Output: [0,1,2,3] or [0,2,1,3]
+
+Output: [0,1,2,3] or [0,2,1,3]
 Explanation: There are a total of 4 courses to take. To take course 3 you should have finished both     
              courses 1 and 2. Both courses 1 and 2 should be taken after you finished course 0. 
              So one correct course order is [0,1,2,3]. Another correct ordering is [0,2,1,3] .
@@ -252,7 +175,7 @@ public:
         vector<int> inDegree(numCourses, 0);
         for(auto item: prerequisites){  //item: [first, second], second--->first
             adjList[item.second].push_back(item.first);
-            inDegree[item.first]+=1;
+·            inDegree[item.first]+=1;
         }
         
         //Collect node whose inDegree is zero
@@ -300,4 +223,45 @@ Input:
 1 0 0 1 0
 
 Output: 4
-
+```
+class Solution {
+public:
+    int maximalSquare(vector<vector<char>>& matrix) {
+        if(matrix.size()==0)
+            return 0;
+        if(matrix[0].size()==0)
+            return 0;
+        int m=matrix.size();
+        int n=matrix[0].size();
+        vector< vector<int>> dp(m, vector<int>(n,0));
+        //初始化第一行
+        int res=0;
+        for(int i=0; i<n; i++){
+            if(matrix[0][i]=='1'){
+                dp[0][i]=1;
+                res=max(res, dp[0][i]);
+            }
+        }
+        //初始化第一列
+         for(int i=0; i<m; i++){
+            if(matrix[i][0]=='1'){
+                dp[i][0]=1;
+                res=max(res, dp[i][0]);
+            }
+        }
+        
+        for(int i=1; i<m; i++){
+            for(int j=1; j<n; j++){
+                if(matrix[i][j]=='1'){
+                    dp[i][j]= min( min(dp[i-1][j], dp[i][j-1]), dp[i-1][j-1])+1;
+                    res=max(res, dp[i][j]*dp[i][j]);
+                }
+                else
+                    dp[i][j]=0;
+                
+            }
+        }
+        return res;
+    }
+};
+```
