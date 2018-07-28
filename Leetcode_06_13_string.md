@@ -77,6 +77,7 @@ Output: [-1,-1]
 
 ```
 class Solution {
+
 public:
     vector<int> searchRange(vector<int>& nums, int target) {
         vector<int> res(2, -1);
@@ -86,7 +87,8 @@ public:
         int end = nums.size()-1;
         while(start<=end){
             int mid=(start + end)/2;
-            if(nums[mid] < target){
+
+if(nums[mid] < target){
                 start=mid+1;
             }
             else if(nums[mid] > target){
@@ -113,6 +115,45 @@ public:
     }
     
 };
+
+class Solution {
+public:
+   
+    vector<int> searchRange(vector<int>& nums, int target){
+        
+        int i = 0, j = nums.size()- 1;
+        vector<int> ret(2, -1);
+        if(nums.size()==0)
+            return ret;
+        // Search for the left one
+        while (i < j)
+        {
+            int mid = (i + j) /2;
+            if(nums[mid]>=target){
+                j=mid;  //此时nums[mid]可能是最左边的那个数
+            }
+            else{
+                i=mid+1;
+            }
+        }
+        if (nums[i]!=target) return ret;
+        else ret[0] = i;
+
+        // Search for the right one
+        j = nums.size()-1;  // We don't have to set i to 0 the second time.
+        while (i < j)
+        {
+            int mid = (i + j) /2 + 1;	// Make mid biased to the right
+            if(nums[mid]<=target)
+                i=mid;
+            else
+                j=mid-1;
+        }
+        ret[1] = j;
+        return ret; 
+    }
+};
+
 ```
 
 ###  46. Permutations               
