@@ -97,7 +97,8 @@ public:
 
 ```
 ### 581. Shortest Unsorted Continuous Subarray
-Given an integer array, you need to find one continuous subarray that if you only sort this subarray in ascending order, then the whole array will be sorted in ascending order, too.
+Given an integer array, you need to find one continuous subarray that if you only sort this subarray in ascending order,
+then the whole array will be sorted in ascending order, too.
 
 You need to find the shortest such subarray and output its length.
 
@@ -137,7 +138,9 @@ public:
 };
 */
 //Solution2: 时间复杂度O(N), 空间复杂度O(N)
-//我们只需找出无序子数左右边界即可，首先我们从头开始遍历数组，用一个stack来保存我们最开始的上升子序列，当我们碰到一个下降趋势的元素//即a[i]>a[i+1],此时我们需要确定a[i+1]的正确位置，即与栈中元素进行比较，找到合适的位置k,这样我们遍历整个数组，求出最小的k即为无序//子数组的左边界，同理找到右边界
+//我们只需找出无序子数左右边界即可，首先我们从头开始遍历数组，用一个stack来保存我们最开始的上升子序列，当我们碰到一个下降趋势的元素
+//即a[i]>a[i+1],此时我们需要确定a[i+1]的正确位置，即与栈中元素进行比较，找到合适的位置k,这样我们遍历整个数组，求出最小的k即为无序
+//子数组的左边界，同理找到右边界
 class Solution{
 public:
     int findUnsortedSubarray(vector<int>& nums) {
