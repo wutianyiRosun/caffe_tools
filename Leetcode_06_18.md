@@ -78,6 +78,24 @@ public:
         return count;
     }
 };
+
+
+//Solution2: 时间复杂度O(N^2), 空间复杂度O(1)
+class Solution {
+public:
+    int subarraySum(vector<int>& nums, int k) {
+        int count=0;
+        for(int i=0; i<nums.size(); i++){
+            int sum=0;
+            for(int end=i; end<nums.size(); end++){
+                sum+=nums[end];
+                if(sum==k)
+                    count+=1;
+            }
+        }
+        return count;
+    }
+};
 ```
 ### 35. Search Insert Position
 Given a sorted array and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order.
