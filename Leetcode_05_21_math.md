@@ -105,4 +105,27 @@ public:
         return false;
     }
 };
+
+//Solution2: O(N^2)
+class Solution {
+public:
+    bool checkSubarraySum(vector<int>& nums, int k) {
+        int len=nums.size();
+        if(len<2)
+            return 0;
+        vector<int> sum(len+1,0); //sum[i]表示子序列nums[0,...,i-1]之和
+        for(int i=1; i<len+1; i++){
+            sum[i]=sum[i-1]+nums[i-1];
+        }
+        for(int i=0; i<len+1; i++){
+            for(int j=0;j<=i-2; j++){
+                if(k!=0 && (sum[i]-sum[j])%k==0)
+                    return true;
+                if(k==0  && (sum[i]-sum[j])==0)
+                    return true;
+            }
+        }
+        return false;
+    }
+};
 ```
