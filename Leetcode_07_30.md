@@ -128,3 +128,53 @@ public:
     }
 };
 ```
+### 204. Count Primes
+Count the number of prime numbers less than a non-negative number, n.
+
+Example:
+
+Input: 10
+Output: 4
+Explanation: There are 4 prime numbers less than 10, they are 2, 3, 5, 7.
+
+```
+/* O(N^2)
+class Solution {
+public:
+    int countPrimes(int n) {
+        int count=0;
+        for(int i=2; i<n; i++){
+            if(isPrimes(i))
+                count+=1;
+        }
+        return count;
+    }
+    bool isPrimes(int n){
+        for(int i=2; i<=n/2; i++){
+            if(n%i==0)
+                return false;
+        }
+        return true;
+    }
+};*/
+//O(N)
+class Solution {
+public:
+    int countPrimes(int n) {
+        bool arr[n+1];
+        memset(arr,true,sizeof(arr));
+        for(int i=2;i*i<=n;i++)
+            if(arr[i]==true)
+                for(int j=i*2;j<=n;j+=i)
+                    arr[j]=false;
+        
+        int cnt=0;
+        for(int i=2;i<n;i++)
+            if(arr[i])
+                cnt++;
+        
+        return cnt;
+        
+    }
+};
+```
