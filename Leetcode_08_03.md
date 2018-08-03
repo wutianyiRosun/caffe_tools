@@ -50,3 +50,46 @@ public:
 
 
 ```
+### 392. Is Subsequence
+ Given a string s and a string t, check if s is subsequence of t.
+
+You may assume that there is only lower case English letters in both s and t. t is potentially a very long (length ~= 500,000) string, and s is a short string (<=100).
+
+A subsequence of a string is a new string which is formed from the original string by deleting some (can be none) of the characters without disturbing the relative positions of the remaining characters. (ie, "ace" is a subsequence of "abcde" while "aec" is not).
+
+Example 1:
+s = "abc", t = "ahbgdc"
+
+Return true.
+
+Example 2:
+s = "axc", t = "ahbgdc"
+
+Return false. 
+```
+//对于s中的每个字符，我们去t中寻找，如果没找到直接返回false,如果找到，标记当前t中的位置，对于s中下一个字符，从该位置的下一个位置开始查找
+class Solution {
+public:
+    bool isSubsequence(string s, string t) {
+        if(s.size()==0)
+            return true;
+        if(t.size()==0)
+            return false;
+        int index_t=0;
+        for(int i=0; i<s.size(); i++){
+            bool flag=false;
+            for( int j= index_t; j< t.size(); j++){
+                if(t[j] == s[i]){
+                    flag=true;
+                    index_t= j+1;
+                    break;
+                }
+            }
+            if(flag==false)
+                return false;
+        }
+        return true;
+    }
+};
+
+```
