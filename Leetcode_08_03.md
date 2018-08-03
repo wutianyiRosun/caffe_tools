@@ -93,3 +93,65 @@ public:
 };
 
 ```
+
+### 673. Number of Longest Increasing Subsequence
+ Given an unsorted array of integers, find the number of longest increasing subsequence.
+
+Example 1:
+
+Input: [1,3,5,4,7]
+Output: 2
+Explanation: The two longest increasing subsequence are [1, 3, 4, 7] and [1, 3, 5, 7].
+
+Example 2:
+
+Input: [2,2,2,2,2]
+Output: 5
+Explanation: The length of longest continuous increasing subsequence is 1, and there are 5 subsequences' length is 1, so output 5.
+
+```
+//dp求解， dp[len][2], 我们用dp[i][0]表示以元素nums[i]结束的最长增长子序列的长度， dp[i][1]记录其对应的最长增长子序列的数量
+//dp方程如下： fixed i, 对于 0 <= j <= i-1,  if(nums[i]>nums[j]) 
+/*
+if(dp[i][0] < dp[j][0] + 1){
+    dp[i][0]=dp[j][0]+1;
+    dp[i][1]=dp[j][1];
+}
+else if(dp[i][0] == dp[j][0] + 1){
+    dp[i][1]+=dp[j][1];
+}
+*/
+class Solution {
+public:
+    int findNumberOfLIS(vector<int>& nums) {
+        if(nums.size()<=1)
+            return nums.size();
+        int len= nums.size();
+        vector< vector < int > > dp(len, vector< int > (2, 1));
+        int max_len=1;
+        for(int i=1; i< len; i++){
+            for(int j=i-1; j>=0; j--){
+                if(nums[i]>nums[j]){
+                    if(dp[i][0] < dp[j][0] + 1){
+                        dp[i][0]=dp[j][0]+1;
+                        dp[i][1]=dp[j][1];
+                    }
+                    else if(dp[i][0] == dp[j][0] + 1){
+                        //dp[i][0] == dp[j][0] + 1;
+                        dp[i][1]+=dp[j][1];
+                    }
+                }
+            }
+            max_len= max(max_len, dp[i][0]);
+        }
+        
+        //compute the number of LIS
+        int count=0;
+        for(int i=0; i<len; i++){
+            if(dp[i][0]==max_len)
+                count+=dp[i][1];
+        }
+        return count;
+    }
+};
+```
