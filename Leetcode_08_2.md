@@ -86,3 +86,61 @@ public:
     }
 };
 ```
+
+### 628. Maximum Product of Three Numbers
+Given an integer array, find three numbers whose product is maximum and output the maximum product.
+
+Example 1:
+Input: [1,2,3]
+Output: 6
+Example 2:
+Input: [1,2,3,4]
+Output: 24
+```
+//Solution1: 枚举: i,j,k, O(N^3)
+//Solution2: 先排序 N*log(N)
+/*
+class Solution {
+public:
+    int maximumProduct(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        int len=nums.size();
+        return max(nums[0]*nums[1]*nums[len-1],  nums[len-1]*nums[len-2]*nums[len-3]);
+    }
+};
+*/
+//Solution3: O(N) 只需找到数组中最小的两个数，与最大的三个数即可
+class Solution {
+public:
+    int maximumProduct(vector<int>& nums) {
+        int min_1=INT_MAX;
+        int min_2=INT_MAX, max_1=INT_MIN, max_2=INT_MIN, max_3=INT_MIN;
+        for(int i=0; i<nums.size(); i++){
+            if(nums[i]<=min_1){
+                min_2 = min_1;
+                min_1 = nums[i];
+            }
+            else if(nums[i]>min_1 && nums[i]<=min_2){
+                min_2 = nums[i];
+            }
+            
+           if(nums[i]>= max_1){
+                max_3 = max_2;
+                max_2 = max_1;
+                max_1 = nums[i];
+                
+            }
+            else if(nums[i]<max_1 && nums[i]>=max_2){
+                max_3 = max_2;
+                max_2 = nums[i];
+            }
+            else if(nums[i]<max_2 && nums[i]>=max_3){
+                max_3 = nums[i];
+            }
+        }
+        return max(min_1*min_2*max_1, max_1*max_2*max_3);
+    }
+};
+
+
+```
