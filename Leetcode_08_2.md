@@ -46,3 +46,43 @@ public:
     }
 };
 ```
+### 873. Length of Longest Fibonacci Subsequence
+
+A sequence X_1, X_2, ..., X_n is fibonacci-like if:
+
+n >= 3
+X_i + X_{i+1} = X_{i+2} for all i + 2 <= n
+Given a strictly increasing array A of positive integers forming a sequence, find the length of the longest fibonacci-like subsequence of A.  If one does not exist, return 0.
+
+(Recall that a subsequence is derived from another sequence A by deleting any number of elements (including none) from A, without changing the order of the remaining elements.  For example, [3, 5, 8] is a subsequence of [3, 4, 5, 6, 7, 8].)
+
+ 
+
+Example 1:
+
+Input: [1,2,3,4,5,6,7,8]
+Output: 5
+Explanation:
+The longest subsequence that is fibonacci-like: [1,2,3,5,8].
+
+```
+//dp[i][j]表示子序列A[i]到A[j]中最长F序列长度
+//k<i<j, dp[i][j]= dp[k][i]+1, if(A[k]+A[i]==A[j])
+class Solution {
+public:
+    int lenLongestFibSubseq(vector<int>& A) {
+        int n = A.size();
+        unordered_map<int, int> m; 
+        for (int i = 0; i < n; i++) m[A[i]] = i;
+        vector<vector<int>> dp(n, vector<int>(n, 2));
+        int ans = 0;
+    	for (int j = 1; j < n; j++)
+    		for (int i = 0; i < j; i++)
+    			if (m.find(A[j]-A[i]) != m.end() && m[A[j] - A[i]] < i){  //A[k]=A[j]-A[i],保持k<i<j
+    				dp[i][j] = max(dp[i][j], dp[m[A[j] - A[i]]][i] + 1);
+                    ans = max(ans, dp[i][j]);
+                }
+    	return (ans==2)?0:ans;
+    }
+};
+```
