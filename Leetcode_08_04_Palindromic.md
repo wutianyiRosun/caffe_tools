@@ -85,3 +85,59 @@ public:
     }
 };
 ```
+
+### 368. Largest Divisible Subset
+
+Given a set of distinct positive integers, find the largest subset such that every pair (Si, Sj) of elements in this subset satisfies: Si % Sj = 0 or Sj % Si = 0.
+
+If there are multiple solutions, return any subset is fine.
+
+Example 1:
+
+nums: [1,2,3]
+
+Result: [1,2] (of course, [1,3] will also be ok)
+Example 2:
+
+nums: [1,2,4,8]
+
+Result: [1,2,4,8]
+```
+//先排序，然后挨个加元素，动态规划
+class Solution {
+public:
+    vector<int> largestDivisibleSubset(vector<int>& nums) {
+        vector<int> res;
+        if(nums.size()<=1)
+            return nums;
+        sort(nums.begin(), nums.end());
+        int len=nums.size();
+        int dp[len];  //dp[i]表示已元素nums[i]结束的最大可除子集的大小
+        int pre[len];  //pre[i]表示最大可出子集中元素nums[i]的前一个元素，便于回溯
+        int IDS_len=0;
+        int end_index=-1;
+        memset(dp,1, sizeof(dp));
+        for(int i=0; i<nums.size(); i++){
+            pre[i]= -1;
+            for(int j=i-1; j>=0; j--){
+                if(nums[i] % nums[j] == 0){
+                    if(dp[j]+1>dp[i]){
+                        dp[i]=dp[j]+1;
+                        pre[i]=j;
+                    }
+                }
+            }
+            if(dp[i]> IDS_len ){
+                IDS_len = dp[i];
+                end_index = i;
+            }
+        }
+        while(end_index!=-1){
+            res.push_back(nums[end_index]);
+            end_index= pre[end_index];
+        }
+        return res;
+    }
+};
+
+```
