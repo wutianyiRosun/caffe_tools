@@ -44,3 +44,92 @@ public:
     }
 };
 ```
+### 32. Longest Valid Parentheses
+Given a string containing just the characters '(' and ')', find the length of the longest valid (well-formed) parentheses substring.
+
+Example 1:
+
+Input: "(()"
+Output: 2
+Explanation: The longest valid parentheses substring is "()"
+
+Example 2:
+
+Input: ")()())"
+Output: 4
+Explanation: The longest valid parentheses substring is "()()"
+```
+//Solution3: 枚举 O(N^3)
+//Solution4: 以每个字符为起点， O(N^2)
+//Solution1
+//动态规划求解， 我们标记数组dp[n], dp[i]表示以s[i]结束的子字符串中LVP最大长度
+// dp[i]== dp[i-2]+2;  if( S[i-1]=='(' && S[i]==')' )
+// dp[i]== dp[i-1-dp[i-2-dp[i-1]]]+ dp[i-1]+2  if(s[i-1-dp[i-1]== '(' && s[i]==')'])
+//O(N)时间复杂度和空间复杂度
+/*
+class Solution {
+public:
+    int longestValidParentheses(string s) {
+        int n= s.size();
+        vector<int > dp(n, 0);
+        int max_count=0;
+        for(int i=1; i<n; i++){
+            if(s[i-1]=='(' && s[i]==')'){
+                 dp[i]= i-2>=0 ? dp[i-2]+2 : 2;
+            }
+            else if( s[i-1-dp[i-1] ]== '(' && s[i]==')'){
+                dp[i]= dp[ i-2-dp[i-1] ] + dp[i-1]+2;
+            }
+            max_count= max( max_count, dp[i]);
+               
+        }
+ 
+        return max_count;
+    }
+};
+*/
+//Solution2: 以左括号为标准，从左向右统计最大长度， 然后以右括号为中心，从右向左统计最大长度
+//O(N)时间复杂度 O(1)空间
+class Solution{
+public:
+    int longestValidParentheses(string s){
+        int max_len=0;
+        int left=0;
+        int right=0;
+        for(int i=0; i<s.size(); i++){
+            if(s[i]=='('){
+                left++;
+            }
+            else {
+                right++;
+            }
+            if(left==right){
+                max_len=max( max_len, 2*left);
+            }
+            else if(right>left){
+                left=0;
+                right=0;
+            }
+        }
+        left=0, right=0;
+        for(int i=s.size()-1; i>=0;  i--){
+            if(s[i]=='('){
+                left++;
+            }
+            else {
+                right++;
+            }
+            if(left==right){
+                max_len=max( max_len, 2*left);
+            }
+            else if(left>right){
+                left=0;
+                right=0;
+            }
+        }
+        return max_len;
+    }
+    
+};
+
+```
