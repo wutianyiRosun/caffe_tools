@@ -66,7 +66,7 @@ Explanation:
 The longest subsequence that is fibonacci-like: [1,2,3,5,8].
 
 ```
-//dp[i][j]表示子序列A[i]到A[j]中最长F序列长度
+//dp[i][j]表示以元素A[i]和A[j]结束的最长斐波那契子序列的长度
 //k<i<j, dp[i][j]= dp[k][i]+1, if(A[k]+A[i]==A[j])
 class Solution {
 public:
